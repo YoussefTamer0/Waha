@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book List – Bookstore</title>
+<!--    <link rel="stylesheet">-->
+<!--          css goes here when create it -->
+</head>
+<body >
+
+<div>
+
+    <h2 class>Book Catalogue</h2>
+
+    <form th:action="@{/books}" method="get" >
+        <input type="text" name="keyword"
+               placeholder="Search by title…"
+               th:value="${keyword}">
+        <button type="submit" >Search</button>
+        <a th:href="@{/books}">Clear</a>
+    </form>
+
+
+    <a th:href="@{/books/new}" >+ Add Book</a>
+
+
+    <table >
+        <thead class=>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Type</th>
+            <th>Year</th>
+            <th>Price</th>
+            <th>Condition</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="book : ${books}">
+            <td th:text="${book.bookID}"></td>
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.genre}"></td>
+            <td th:text="${book.type}"></td>
+            <td th:text="${book.publicationYear}"></td>
+            <td th:text="${'$' + book.price}"></td>
+            <td th:text="${book.bookCondition}"></td>
+            <td>
+                <a th:href="@{/books/edit/{id}(id=${book.bookID})}"
+                   >Edit</a>
+                <form th:action="@{/books/delete/{id}(id=${book.bookID})}"
+                      method="post" style="display:inline">
+                    <button type="submit"
+                            onclick="return confirm('Delete this book?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(books)}">
+            <td colspan="8" class="text-center text-muted">No books found.</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
