@@ -9,7 +9,7 @@ public class authors {
 @Id
 @Column(name="AuthorID")
 private Integer AuthorID;
-@OneToMany(mappedBy="authors")
+@OneToMany(mappedBy="author")
 private ArrayList<books> Book;
 @Column(name="firstName")
 private String firstName;
