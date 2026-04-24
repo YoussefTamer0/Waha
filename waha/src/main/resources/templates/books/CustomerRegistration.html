@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+    <style>
+        body{
+            background-color:#ECE6D8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        div{
+            border-radius: 25pt;
+
+
+            min-height: 100vh;
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1{
+            color:#6B4028;
+            text-align: center;
+            font-family:'Times New Roman', Times, serif;
+            margin-bottom: 10px;
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        fieldset{
+            margin: 0;
+
+            height: auto;
+            width: 500pt;
+
+            border: 2px solid #6B4028;
+            border-radius: 25pt;
+            background-color: #7B967A;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        label{
+            color:#6B4028;
+            font-weight:bold;
+            font-size:10pt;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            width: 150px;
+        }
+
+        input{
+            border-radius: 20pt;
+            border: 1px solid #6B4028;
+
+            margin-bottom: 10px;
+            padding: 5px;
+
+            width: 250px;
+        }
+
+        input:focus{
+            outline:none;
+            box-shadow:1px 1px 1px 1px #BED4C2;
+        }
+
+        input[type="submit"]{
+            margin-top: 10px;
+
+            width: 120px;
+            height: 30px;
+
+            color: #6B4028;
+            background: #7B967A;
+
+            border-radius: 20pt;
+            border: 1px solid #6B4028;
+
+            cursor: pointer;
+        }
+
+        a{
+            margin-top: 10px;
+            color: #6B4028;
+            text-align: center;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <h1>Register</h1>
+
+    <form method="post" action="/customer-Profile" th:object="${customer}">
+        <fieldset>
+
+            <label>FirsName: </label> <input type="text" name="firstName" th:field="*{firstName}" required><br/><br/>
+            <label>LastName: </label> <input type="text" name="lastName" th:field="*{lastName}" required><br/><br/>
+            <label>Email: </label> <input type="email" name="email" th:field="*{email}" required><br/><br/>
+            <label>Phone: </label> <input type="text" name="phoneNumber" th:field="*{phoneNumber}"  required><br/><br/>
+            <label>Province: </label> <input type="text" name="Province" th:field="*{Province}"  required><br/><br/>
+            <label>Country: </label> <input type="text" name="Country" th:field="*{Country}" required><br/><br/>
+            <label>PostalCode: </label> <input type="text" name="postalCode" th:field="*{postalCode}" required><br/><br/>
+            <label>StreetNumber: </label> <input type="text" name="streetNumber" th:field="*{streetNumber}" required><br/><br/>
+            <label>StreetName: </label> <input type="text" name="streetName" th:field="*{streetName}" required><br/><br/>
+            <label>Password: </label> <input type="password" name="password" th:field="*{password}"  required><br/><br/>
+
+
+        </fieldset>
+
+        <input type="submit" value="Register"><br/>
+        <a href="/home">Go back to home page</a>
+    </form>
+</div>
+</body>
+</html>
