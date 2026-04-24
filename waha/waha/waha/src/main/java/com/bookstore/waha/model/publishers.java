@@ -12,6 +12,7 @@ private Integer publisherID;
 private String Country;
 @Column(name="bookID")
 private books Book;
+public publishers() {}
 public publishers(Integer publisherID, String country) {
 	
 	this.publisherID = publisherID;

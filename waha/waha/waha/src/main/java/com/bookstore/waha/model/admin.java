@@ -46,6 +46,7 @@ public class admin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public admin() {}
 	public admin(Integer adminID, String firstName, String lastName, String email, String password) {
 		
 		this.adminID = adminID;

@@ -28,6 +28,7 @@ public class customers{
 	private String email;
 	@Column(name="password")
 	private String password;
+	public customers() {}
 
 	public customers(Integer customerID, String firstname, String lastname, String streetNumber, String streetName,
 			String postalCode, String province, String country, String phoneNumber, String email, String password) {
