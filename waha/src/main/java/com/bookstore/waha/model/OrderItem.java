@@ -17,10 +17,46 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-//    @ManyToOne
-//    private Book book; i will make it as comment until book class created
+  @ManyToOne
+  private books book;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public int getQuantity() {
+        return quantity;
+    }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public books getBook() {
+        return book;
+    }
+
+    public void setBook(books book) {
+        this.book = book;
+    }
 }
