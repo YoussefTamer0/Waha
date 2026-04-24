@@ -1,4 +1,4 @@
-package com.bookstore.waha.Model;
+package com.bookstore.waha.model;
 import jakarta.persistence.*;
 import java.util.List;
 
