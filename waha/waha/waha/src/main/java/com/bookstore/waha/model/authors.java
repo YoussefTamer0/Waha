@@ -1,6 +1,6 @@
 package com.bookstore.waha.model;
 import jakarta.persistence.*;
-import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @Entity
 @Table(name="authors")
@@ -9,12 +9,13 @@ public class authors {
 @Id
 @Column(name="AuthorID")
 private Integer AuthorID;
-@Column(name="bookID")
-private books Book;
+@OneToMany(mappedBy="authors")
+private ArrayList<books> Book;
 @Column(name="firstName")
 private String firstName;
 @Column(name="lastName")
 private String lastName;
+public authors() {}
 public authors(Integer authorId, String firstName, String lastName) {
 	
 	AuthorID= authorId;
@@ -41,11 +42,14 @@ public String getLastName() {
 public void setLastName(String lastName) {
 	this.lastName = lastName;
 }
-public books getBook() {
+public ArrayList<books> getBook() {
 	return Book;
 }
-public void setBook(books book) {
-	Book = book;
+public void setBooks(ArrayList<books> books) {
+    Book = books;  
+}
+public void addBooks(books book) {
+	Book.add(book);
 }
 
 
