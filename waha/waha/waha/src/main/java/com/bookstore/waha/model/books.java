@@ -38,7 +38,7 @@ public class books {
 
     @ManyToOne
     @JoinColumn(name = "PublisherID")
-    private Publisher publisher;
+    private publishers publisher;
 
     public books() {}
 
@@ -81,6 +81,6 @@ public class books {
     public authors getAuthor() { return author; }
     public void setAuthor(authors author) { this.author = author; }
 
-    public Publisher getPublisher() { return publisher; }
-    public void setPublisher(Publisher publisher) { this.publisher = publisher; }
+    public publishers getPublisher() { return publisher; }
+    public void setPublisher(publishers publisher) { this.publisher = publisher; }
 }
