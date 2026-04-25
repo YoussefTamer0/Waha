@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "books")
-public class books {
+public class Book {
 
     @Id
     @Column(name = "bookID")
@@ -34,25 +34,11 @@ public class books {
 
     @ManyToOne
     @JoinColumn(name = "AuthorID")
-    private authors author;
+    private Authors author;
 
     @ManyToOne
     @JoinColumn(name = "PublisherID")
     private Publisher publisher;
-
-    public books() {}
-
-    public books(Integer bookID, String title, String isbn, String genre,
-                String type, Integer publicationYear, BigDecimal price, String bookCondition) {
-        this.bookID = bookID;
-        this.title = title;
-        this.isbn = isbn;
-        this.genre = genre;
-        this.type = type;
-        this.publicationYear = publicationYear;
-        this.price = price;
-        this.bookCondition = bookCondition;
-    }
 
     public Integer getBookID() { return bookID; }
     public void setBookID(Integer bookID) { this.bookID = bookID; }
@@ -78,7 +64,7 @@ public class books {
     public String getBookCondition() { return bookCondition; }
     public void setBookCondition(String bookCondition) { this.bookCondition = bookCondition; }
 
-    public authors getAuthor() { return author; }
+    public Authors getAuthor() { return author; }
     public void setAuthor(authors author) { this.author = author; }
 
     public Publisher getPublisher() { return publisher; }
