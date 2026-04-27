@@ -1,10 +1,9 @@
 package com.bookstore.waha.model;
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name="admins")
-public class admin {
+public class Admin {
  @Id
  @Column(name="adminID")
  private Integer adminID;
@@ -46,8 +45,8 @@ public class admin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public admin(){}
-	public admin(Integer adminID, String firstName, String lastName, String email, String password) {
+	public Admin(){}
+	public Admin(Integer adminID, String firstName, String lastName, String email, String password) {
 		
 		this.adminID = adminID;
 		this.firstName = firstName;
