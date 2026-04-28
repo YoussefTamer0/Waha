@@ -1,5 +1,6 @@
 package com.bookstore.waha.model;
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -8,12 +9,13 @@ import jakarta.persistence.*;
 @Table(name="publishers")
 public class Publisher {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="publisherID")
     private Integer publisherID;
     @Column(name="Country")
     private String Country;
     @OneToMany(mappedBy="publisher")
-    private ArrayList<Book> books;
+    private List<Book> books=new ArrayList<Book>();
     public Publisher() {}
     public Publisher(Integer publisherID, String country) {
 
@@ -33,14 +35,16 @@ public class Publisher {
     public void setCountry(String country) {
         Country = country;
     }
-    public ArrayList<Book> getBook(){
+    public List<Book> getBook(){
         return books;
     }
-    public void setBook(ArrayList<Book> books) {
+    public void setBook(List<Book> books) {
         this.books=books;
     }
     public void addBook(Book book) {
         books.add(book);
+        book.setPublisher(this);
+
     }
 
 }
