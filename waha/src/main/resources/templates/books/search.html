@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+    <style>
+        body{
+            background-color:#ECE6D8;
+        }
+
+
+        .search-container {
+            width: 800pt;
+            margin: 0 auto 20pt auto;
+            background-color:#BED4C2;
+            border-radius:20pt;
+            padding: 20pt;
+        }
+
+        .search-title {
+            color: #6B4028;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            margin-bottom: 15pt;
+            text-align: center;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10pt;
+            justify-content: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10pt;
+            font-size: 12pt;
+            border: 1px solid #6B4028;
+            border-radius: 10pt;
+            background-color: white;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .search-button {
+            padding: 10pt 25pt;
+            background-color: #6B4028;
+            color: white;
+            border: none;
+            border-radius: 10pt;
+            cursor: pointer;
+            font-size: 12pt;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .search-button:hover {
+            background-color: #8B6048;
+        }
+
+        .results-count {
+            text-align: center;
+            color: #6B4028;
+            margin: 15pt auto;
+            font-style: italic;
+        }
+
+        table{
+            width:800pt;
+            margin: 0 auto;
+            background-color:#BED4C2;
+            border-radius:20pt;
+            border-collapse: collapse;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12pt;
+            text-align: left;
+            border-bottom: 1px solid #a8c4ae;
+        }
+
+        .clickable-row:hover {
+            background-color: #a8c4ae;
+            transform: scale(1.01);
+            cursor: pointer;
+        }
+
+        th{
+            color:#6B4028;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #a8c4ae;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40pt;
+            color: #6B4028;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-container">
+    <h2 class="search-title">🔍 Search Books</h2>
+    <form th:action="@{/books/search}" method="get" class="search-form">
+        <input type="text"
+               name="query"
+               class="search-input"
+               placeholder="Search by title, author, or genre..."
+               th:value="${param.query}">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+</div>
+
+
+<div class="results-count" th:if="${not #lists.isEmpty(books)}">
+    Found <span th:text="${#lists.size(books)}">?</span> result(s)
+</div>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Price</th>
+        <th>Year</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(books)}">
+        <td colspan="5" class="no-results">
+            No books found matching "<span th:text="${param.query}">?</span>"
+        </td>
+    </tr>
+    <tr th:each="book: ${books}"
+        th:data-id="${book.bookID}"
+        class="clickable-row"
+        onclick="window.location.href = '/books/' + this.getAttribute('data-id')">
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author.firstName + ' ' + book.author.lastName}"></td>
+        <td th:text="${book.genre}"></td>
+        <td th:text="${book.price}"></td>
+        <td th:text="${book.publicationYear}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
