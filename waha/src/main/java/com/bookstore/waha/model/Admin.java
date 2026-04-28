@@ -46,15 +46,7 @@ public class Admin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Admin(){}
-	public Admin(Integer adminID, String firstName, String lastName, String email, String password) {
-		
-		this.adminID = adminID;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-	}
+
 
  
 }

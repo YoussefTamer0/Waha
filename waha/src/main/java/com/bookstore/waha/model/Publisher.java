@@ -16,13 +16,7 @@ public class Publisher {
     private String Country;
     @OneToMany(mappedBy="publisher")
     private List<Book> books=new ArrayList<Book>();
-    public Publisher() {}
-    public Publisher(Integer publisherID, String country) {
 
-        this.publisherID = publisherID;
-        Country = country;
-
-    }
     public Integer getPublisherID() {
         return publisherID;
     }
