@@ -1,15 +1,20 @@
 package com.bookstore.waha.Service;
 
+import com.bookstore.waha.model.Book;
 import com.bookstore.waha.model.Publisher;
+import com.bookstore.waha.repository.booksRepository;
 import com.bookstore.waha.repository.publishersRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 @Service
 public class publishersService {
+    private final booksRepository bookrepo;
    private final publishersRepository publisherrepo;
-   public publishersService( publishersRepository publisherrepo){
+   public publishersService( publishersRepository publisherrepo, booksRepository bookrepo){
+       this.bookrepo=bookrepo;
        this.publisherrepo=publisherrepo;
    }
    public void addPublisher(Publisher publisher){
@@ -34,4 +39,15 @@ public class publishersService {
       Optional<Publisher> publisher= publisherrepo.findById(ID);
        return publisher.orElse(null);
    }
+    @Transactional
+    public void addExistingBookToPublisher(Integer publisherID, Integer bookID) {
+        Publisher publisher = publisherrepo.findById(publisherID)
+                .orElseThrow(() -> new RuntimeException("Publisher not found with ID: " + publisherID));
+
+        Book book = bookrepo.findById(bookID)
+                .orElseThrow(() -> new RuntimeException("Book not found with ID: " + bookID));
+
+        publisher.addBook(book);
+        publisherrepo.save(publisher);
+    }
 }
