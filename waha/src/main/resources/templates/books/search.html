@@ -124,11 +124,12 @@
         <th>Genre</th>
         <th>Price</th>
         <th>Year</th>
+        <th>Publisher</th>
     </tr>
     </thead>
     <tbody>
     <tr th:if="${#lists.isEmpty(books)}">
-        <td colspan="5" class="no-results">
+        <td colspan="6" class="no-results">
             No books found matching "<span th:text="${param.query}">?</span>"
         </td>
     </tr>
@@ -141,6 +142,7 @@
         <td th:text="${book.genre}"></td>
         <td th:text="${book.price}"></td>
         <td th:text="${book.publicationYear}"></td>
+        <td th:text="${book.publisher.name}"><td>
     </tr>
     </tbody>
 </table>

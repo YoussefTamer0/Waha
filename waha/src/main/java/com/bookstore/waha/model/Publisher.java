@@ -14,9 +14,17 @@ public class Publisher {
     private Integer publisherID;
     @Column(name="Country")
     private String Country;
+    @Column(name="Name")
+    private String Name;
     @OneToMany(mappedBy="publisher")
     private List<Book> books=new ArrayList<Book>();
 
+    public String getName() {
+        return Name;
+    }
+    public void setName(String name) {
+        Name = name;
+    }
     public Integer getPublisherID() {
         return publisherID;
     }
