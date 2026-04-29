@@ -1,10 +1,10 @@
 package com.bookstore.waha.repository;
 
-import com.bookstore.waha.model.books;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import com.bookstore.waha.model.admin;
 
 
-public interface booksRepository extends JpaRepository<books, Integer> {
+public interface adminRepository extends JpaRepository<admin, Integer>{
 
 }
