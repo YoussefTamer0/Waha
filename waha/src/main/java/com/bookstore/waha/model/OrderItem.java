@@ -19,11 +19,11 @@ public class OrderItem {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name="order_id")
     private Order order;
 
   @ManyToOne
-  private books book;
+  private Book book;
 
     public Long getId() {
         return id;
@@ -57,11 +57,11 @@ public class OrderItem {
         this.order = order;
     }
 
-    public books getBook() {
+    public Book getBook() {
         return book;
     }
 
-    public void setBook(books book) {
+    public void setBook(Book book) {
         this.book = book;
     }
 }
