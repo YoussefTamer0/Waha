@@ -6,7 +6,7 @@ import com.bookstore.waha.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-/*
+
 @Service
 
 public class OrderService {
@@ -56,4 +56,3 @@ public class OrderService {
     }
 }
 
- */
