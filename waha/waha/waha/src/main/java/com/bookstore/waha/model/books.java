@@ -34,11 +34,11 @@ public class books {
 
     @ManyToOne
     @JoinColumn(name = "AuthorID")
-    private authors author;
+    private Author author;
 
     @ManyToOne
     @JoinColumn(name = "PublisherID")
-    private publishers publisher;
+    private Publisher publisher;
 
     public books() {}
 
@@ -72,15 +72,15 @@ public class books {
     public Integer getPublicationYear() { return publicationYear; }
     public void setPublicationYear(Integer publicationYear) { this.publicationYear = publicationYear; }
 
-    public BigDecimal getPrice() { return price; }
+    public double getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
 
     public String getBookCondition() { return bookCondition; }
     public void setBookCondition(String bookCondition) { this.bookCondition = bookCondition; }
 
-    public authors getAuthor() { return author; }
-    public void setAuthor(authors author) { this.author = author; }
+    public Author getAuthor() { return author; }
+    public void setAuthor(Author author) { this.author = author; }
 
-    public publishers getPublisher() { return publisher; }
-    public void setPublisher(publishers publisher) { this.publisher = publisher; }
+    public Publisher getPublisher() { return publisher; }
+    public void setPublisher(Publisher publisher) { this.publisher = publisher; }
 }

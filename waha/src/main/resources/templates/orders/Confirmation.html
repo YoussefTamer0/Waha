@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>confirmation</title>
+</head>
+<body>
+<h2>Order Placed Successfully</h2>
+
+<p th:text="'Name: ' + ${order.customerName}"></p>
+<p th:text="'Address: ' + ${order.address}"></p>
+<p th:text="'Total: ' + ${order.totalPrice}"></p>
+
+<h3>Items:</h3>
+<ul>
+    <li th:each="item : ${order.items}">
+        <span th:text="${item.book.title}"></span> -
+        <span th:text="${item.quantity}"></span> -
+        <span th:text="${item.price}"></span>
+    </li>
+</ul>
+
+</body>
+</html>
