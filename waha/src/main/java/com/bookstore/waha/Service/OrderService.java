@@ -6,7 +6,9 @@ import com.bookstore.waha.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+/*
 @Service
+
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -49,7 +51,9 @@ public class OrderService {
 
         order.setTotalPrice(total);
 
-        //
+
         return orderRepository.save(order);
     }
 }
+
+ */
