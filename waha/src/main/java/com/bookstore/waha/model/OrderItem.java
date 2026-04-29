@@ -1,20 +1,18 @@
 package com.bookstore.waha.model;
 import jakarta.persistence.*;
-
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @Entity
+@Table(name = "OrderItem")
 
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "Book is required")
-    @NotNull(message = "Quantity is required")
-    @Min(value = 1, message = "Quantity must be at least 1")
+    @NotNull
+    @Min(1)
     private int quantity;
     @NotNull(message = "Price is required")
     @Positive(message = "Price must be positive")

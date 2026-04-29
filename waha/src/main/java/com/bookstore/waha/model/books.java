@@ -72,7 +72,7 @@ public class books {
     public Integer getPublicationYear() { return publicationYear; }
     public void setPublicationYear(Integer publicationYear) { this.publicationYear = publicationYear; }
 
-    public BigDecimal getPrice() { return price; }
+    public double getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
 
     public String getBookCondition() { return bookCondition; }

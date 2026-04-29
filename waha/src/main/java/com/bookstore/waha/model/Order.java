@@ -6,7 +6,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "orders")
+@Table(name = "Orders")
 
 public class Order {
     @Id
@@ -21,8 +21,10 @@ public class Order {
     @NotNull(message = "Total price is required")
     @Positive(message = "Total price must be positive")
     private Double totalPrice;
+
     @OneToMany(mappedBy ="order",cascade = CascadeType.ALL)
     private List<OrderItem> items;
+
     @NotEmpty(message = "Order must contain at least one item")
     public Long getId() {
         return id;
