@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
@@ -11,11 +12,16 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="publisherID")
-    private Integer publisherID;
+    private Long publisherID;
+
+    @NotBlank(message = "Country is required")
     @Column(name="Country")
     private String Country;
+
+    @NotBlank(message = "Publisher name is required")
     @Column(name="Name")
     private String Name;
+
     @OneToMany(mappedBy="publisher")
     private List<Book> books=new ArrayList<Book>();
 
@@ -25,10 +31,10 @@ public class Publisher {
     public void setName(String name) {
         Name = name;
     }
-    public Integer getPublisherID() {
+    public Long getPublisherID() {
         return publisherID;
     }
-    public void setPublisherID(Integer publisherID) {
+    public void setPublisherID(Long publisherID) {
         this.publisherID = publisherID;
     }
     public String getCountry() {
@@ -49,4 +55,11 @@ public class Publisher {
 
     }
 
+    public Publisher(Long publisherID, String country, String name, List<Book> books) {
+        this.publisherID = publisherID;
+        Country = country;
+        Name = name;
+        this.books = books;
+    }
+    public Publisher(){}
 }
