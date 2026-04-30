@@ -16,13 +16,13 @@
             color: #340B01;
         }
 
-        /* Sidebar Layout */
+
         .app-container {
             display: flex;
             min-height: 100vh;
         }
 
-        /* Sidebar */
+
         .sidebar {
             width: 260px;
             background-color: #340B01;
@@ -69,7 +69,7 @@
             font-weight: bold;
         }
 
-        /* Main Content */
+
         .main-content {
             margin-left: 260px;
             flex: 1;
@@ -222,7 +222,7 @@
 </head>
 <body>
 <div class="app-container">
-    <!-- Sidebar -->
+
     <aside class="sidebar">
         <h2>📚 Bookstore Admin</h2>
         <nav>
@@ -233,14 +233,14 @@
         </nav>
     </aside>
 
-    <!-- Main Content -->
+
     <main class="main-content">
         <div class="container">
             <h1>📚 Manage Books</h1>
 
             <div th:if="${message}" class="message" th:text="${message}"></div>
 
-            <!-- Add Book Form -->
+
             <div class="card">
                 <h2>➕ Add New Book</h2>
                 <form action="#" th:action="@{/admin/books/add}" th:object="${book}" method="post">
@@ -276,7 +276,7 @@
 
                     <div class="form-group">
                         <label>Condition:</label>
-                        Condition: <input type="text" th:field="*{bookCondition}">
+                        <input type="text" th:field="*{bookCondition}">
                     </div>
 
                     <div class="form-group">
@@ -297,7 +297,7 @@
                 </form>
             </div>
 
-            <!-- Delete Book Form -->
+
             <div class="card">
                 <h2>🗑️ Delete Book</h2>
                 <form th:action="@{/admin/books/delete}" method="post">
