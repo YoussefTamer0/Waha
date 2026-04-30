@@ -66,4 +66,8 @@ public class adminService {
         }
         bookrepo.delete(book);
     }
+    public Book findBookByID(Integer ID) {
+
+        return bookrepo.findById(ID).orElse(null);
+    }
 }
