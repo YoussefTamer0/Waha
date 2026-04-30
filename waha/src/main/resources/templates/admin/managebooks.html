@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Books | Bookstore Admin</title>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #ECE6D8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #340B01;
+        }
+
+        /* Sidebar Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: #340B01;
+            color: #ECE6D8;
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            color: #BED4C2;
+            font-size: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #6B4028;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar nav ul li a {
+            color: #ECE6D8;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar nav ul li a:hover {
+            background-color: #6B4028;
+            color: white;
+        }
+
+        .sidebar nav ul li a.active {
+            background-color: #7B967A;
+            color: #340B01;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #340B01;
+            border-left: 5px solid #7B967A;
+            padding-left: 20px;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(52, 11, 1, 0.1);
+            border: 1px solid #BED4C2;
+        }
+
+        .card h2 {
+            color: #6B4028;
+            border-bottom: 2px solid #BED4C2;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .form-group label {
+            width: 140px;
+            font-weight: 600;
+            color: #6B4028;
+        }
+
+        .form-group input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 12px;
+            border: 1px solid #BED4C2;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #ECE6D8;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #7B967A;
+            background-color: white;
+        }
+
+        .btn {
+            background-color: #7B967A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #6B4028;
+        }
+
+        .btn-danger {
+            background-color: #340B01;
+        }
+
+        .btn-danger:hover {
+            background-color: #6B4028;
+        }
+
+        .delete-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .delete-group input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #BED4C2;
+            border-radius: 6px;
+            background-color: #ECE6D8;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #6B4028;
+            margin-top: 5px;
+            margin-left: 140px;
+        }
+
+        .message {
+            background-color: #7B967A;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main-content {
+                margin-left: 200px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .form-group label {
+                margin-bottom: 8px;
+            }
+            .helper-text {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>📚 Bookstore Admin</h2>
+        <nav>
+            <ul>
+                <li><a href="#" th:href="@{/admin/books/manage}" class="active">📖 Manage Books</a></li>
+                <li><a href="#" th:href="@{/admin/orders/view}">📦 View Orders</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <h1>📚 Manage Books</h1>
+
+            <div th:if="${message}" class="message" th:text="${message}"></div>
+
+            <!-- Add Book Form -->
+            <div class="card">
+                <h2>➕ Add New Book</h2>
+                <form action="#" th:action="@{/admin/books/add}" th:object="${book}" method="post">
+                    <div class="form-group">
+                        <label>Title:</label>
+                        <input type="text" th:field="*{title}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ISBN:</label>
+                        <input type="text" th:field="*{isbn}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Genre:</label>
+                        <input type="text" th:field="*{genre}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type:</label>
+                        <input type="text" th:field="*{type}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Publication Year:</label>
+                        <input type="text" th:field="*{publicationYear}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price:</label>
+                        <input type="text" th:field="*{price}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Condition:</label>
+                        Condition: <input type="text" th:field="*{bookCondition}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Author ID:</label>
+                        <input type="text" th:field="*{author.authorID}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Publisher ID:</label>
+                        <input type="text" th:field="*{publisher.publisherID}">
+                    </div>
+
+                    <div class="helper-text">
+                        💡 Tip: Author and Publisher IDs must exist in the database
+                    </div>
+
+                    <button type="submit" class="btn">Add Book</button>
+                </form>
+            </div>
+
+            <!-- Delete Book Form -->
+            <div class="card">
+                <h2>🗑️ Delete Book</h2>
+                <form th:action="@{/admin/books/delete}" method="post">
+                    <div class="delete-group">
+                        <label style="font-weight:600; color:#6B4028;">Book ID:</label>
+                        <input type="text" name="bookID" required>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                    <div class="helper-text" style="margin-left:0; margin-top:10px;">
+                        ⚠️ Warning: This action cannot be undone
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
