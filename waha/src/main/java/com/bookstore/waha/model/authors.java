@@ -26,8 +26,7 @@ public Integer getAuthorId() {
 	return AuthorID;
 }
 public void setAuthorId(Integer authorId) {
-	AuthorID = authorId;
-}
+	AuthorID = authorId;}
 
 public String getFirstName() {
 	return firstName;

@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface inventoryRepository extends JpaRepository<Inventory, Long> {
 
-    Optional<Inventory> findByBookId(Long bookId);
-}
+    Optional<Inventory> findByBookId(Long bookId);}

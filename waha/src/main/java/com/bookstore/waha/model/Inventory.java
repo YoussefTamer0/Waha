@@ -18,7 +18,9 @@ public class Inventory {
     private int quantity;
     private int minStockLevel;
 
-    public Inventory() {}
+    public Inventory() {
+
+    }
 
     public Inventory(Book book, int quantity, int minStockLevel) {
         this.book = book;
