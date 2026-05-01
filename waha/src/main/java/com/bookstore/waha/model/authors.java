@@ -41,7 +41,7 @@ public String getLastName() {
 public void setLastName(String lastName) {
 	this.lastName = lastName;
 }
-public books getBook() {
+public Books getBook() {
 	return Book;
 }
 public void setBook(books book) {
