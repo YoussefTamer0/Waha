@@ -1,4 +1,4 @@
-package com.bookstore.waha.Controller;
+package com.bookstore.waha.controller;
 import com.bookstore.waha.model.Order;
 import com.bookstore.waha.Service.OrderService;
 import jakarta.validation.Valid;
