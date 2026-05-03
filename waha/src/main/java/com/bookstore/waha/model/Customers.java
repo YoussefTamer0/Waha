@@ -1,16 +1,18 @@
 package com.bookstore.waha.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "customer")
 
 public class Customer {
-	
 	@Id
     @Column(name = "customerID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@NotBlank(message = "Customer ID is required")
-	private Integer customerID;
+	private Long customerID;
 	
 	@Column(name = "firstName")
 	private String firstName;
@@ -41,9 +43,23 @@ public class Customer {
 	
 	@Column(name="password")
 	private String password;
-	
-	
-	
+
+	public Customer() {
+	}
+
+	public Customer(Long customerID, String firstName, String lastName, String streetNumber, String streetName, String postalCode, String province, String country, String phoneNumber, String email, String password) {
+		this.customerID = customerID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.streetNumber = streetNumber;
+		this.streetName = streetName;
+		this.postalCode = postalCode;
+		Province = province;
+		Country = country;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.password = password;
+	}
 
 	public Integer getCustomerID() {
 		return customerID;
