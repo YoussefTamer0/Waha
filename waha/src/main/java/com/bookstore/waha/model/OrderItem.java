@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @Entity
-@Table(name = "OrderItem")
+@Table(name = "order_item")
 
 public class OrderItem {
     @Id
@@ -23,7 +23,7 @@ public class OrderItem {
     private Order order;
 
   @ManyToOne
-  private books book;
+  private Book book;
 
     public Long getId() {
         return id;
@@ -57,11 +57,11 @@ public class OrderItem {
         this.order = order;
     }
 
-    public books getBook() {
+    public Book getBook() {
         return book;
     }
 
-    public void setBook(books book) {
+    public void setBook(Book book) {
         this.book = book;
     }
 }

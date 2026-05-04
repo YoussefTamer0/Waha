@@ -2,23 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>confirmation</title>
+    <title>Confirmation</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<h2>Order Placed Successfully</h2>
 
-<p th:text="'Name: ' + ${order.customerName}"></p>
-<p th:text="'Address: ' + ${order.address}"></p>
-<p th:text="'Total: ' + ${order.totalPrice}"></p>
+<h2>Order Placed Successfully 🎉</h2>
 
-<h3>Items:</h3>
-<ul>
-    <li th:each="item : ${order.items}">
-        <span th:text="${item.book.title}"></span> -
-        <span th:text="${item.quantity}"></span> -
-        <span th:text="${item.price}"></span>
-    </li>
-</ul>
+<div class="container">
+
+    <p th:text="'Name: ' + ${order.customerName}"></p>
+    <p th:text="'Address: ' + ${order.address}"></p>
+    <p th:text="'Total: ' + ${order.totalPrice}"></p>
+
+    <h3>Items:</h3>
+
+    <ul>
+        <li th:each="item : ${order.items}">
+            <span th:text="${item.book.title}"></span> -
+            <span th:text="${item.quantity}"></span> pcs -
+            <span th:text="${item.price}"></span> EGP
+        </li>
+    </ul>
+
+</div>
 
 </body>
 </html>

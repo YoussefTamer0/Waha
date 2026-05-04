@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Checkout</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<form th:action="@{/orders/place}" th:object="${order}" method="post">
 
-    <label>Name:</label>
-    <input type="text" th:field="*{customerName}" />
+<h2>Checkout</h2>
 
-    <label>Address:</label>
-    <input type="text" th:field="*{address}" />
+<div class="container">
+    <form th:action="@{/orders/place}" th:object="${order}" method="post">
 
-    <button type="submit">Place Order</button>
+        <label>Name:</label>
+        <input type="text" th:field="*{customerName}" placeholder="Enter your name" required />
 
-</form>
+        <label>Address:</label>
+        <input type="text" th:field="*{address}" placeholder="Enter your address" required />
+
+        <button type="submit">Place Order</button>
+
+    </form>
+</div>
 
 </body>
 </html>
