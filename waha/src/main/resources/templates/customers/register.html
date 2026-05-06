@@ -104,7 +104,7 @@
 <div>
     <h1>Register</h1>
 
-    <form method="post" action="/customer-Profile" th:object="${customer}">
+    <form method="post" action="#" th:action="@{/customer/register}" th:object="${customer}">
         <fieldset>
 
             <label>FirsName: </label> <input type="text" name="firstName" th:field="*{firstName}" required><br/><br/>
