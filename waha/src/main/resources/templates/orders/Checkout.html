@@ -9,6 +9,21 @@
 
 <h2>Checkout</h2>
 
+<h3>Your Cart Items</h3>
+
+<table border="1">
+    <tr>
+        <th>Book</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+
+    <tr th:each="item : ${cartItems}">
+        <td th:text="${item.book.title}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.book.price}"></td>
+    </tr>
+</table>
 <div class="container">
     <form th:action="@{/orders/place}" th:object="${order}" method="post">
 
