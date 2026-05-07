@@ -1,4 +1,4 @@
-package com.bookstore.waha.Service;
+package com.bookstore.waha.service;
 import com.bookstore.waha.model.CartItem;
 import org.springframework.stereotype.Service;
 

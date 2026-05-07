@@ -23,6 +23,7 @@ public class OrderItem {
     private Order order;
 
   @ManyToOne
+  @JoinColumn(name="bookID")
   private Book book;
 
     public Long getId() {
