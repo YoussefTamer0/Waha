@@ -1,58 +1,74 @@
 package com.bookstore.waha.service;
 
+import com.bookstore.waha.model.CartItem;
 import com.bookstore.waha.model.Order;
 import com.bookstore.waha.model.OrderItem;
 import com.bookstore.waha.repository.OrderRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 
 public class OrderService {
-
     private final OrderRepository orderRepository;
-    private final CartService cartService;
 
-    public OrderService(OrderRepository orderRepository, CartService cartService) {
+    public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.cartService = cartService;
     }
 
-    public Order placeOrder(Order order) {
-
-        List<OrderItem> items = cartService.getItems();
+    public Order placeOrder(Order order, HttpSession session) {
 
 
-        if (items == null || items.isEmpty()) {
+        List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cartItems");
+
+        if (cartItems == null || cartItems.isEmpty()) {
             throw new RuntimeException("Cart is empty");
         }
 
-        order.setItems(items);
+        List<OrderItem> orderItems = new ArrayList<>();
 
         double total = 0;
 
-        for (OrderItem item : items) {
 
+        for (CartItem cartItem : cartItems) {
 
-            item.setOrder(order);
+            OrderItem orderItem = new OrderItem();
 
+            orderItem.setBook(cartItem.getBook());
 
-            if (item.getBook() == null) {
-                throw new RuntimeException("Book not found");
-            }
+            orderItem.setQuantity(cartItem.getQuantity());
 
-            double price = item.getBook().getPrice();
-            item.setPrice(price);
+            orderItem.setPrice(cartItem.getBook().getPrice());
 
+            orderItem.setOrder(order);
 
-            total += price * item.getQuantity();
+            total += orderItem.getPrice() * orderItem.getQuantity();
+
+            orderItems.add(orderItem);
         }
+
+        order.setItems(orderItems);
 
         order.setTotalPrice(total);
 
 
-        return orderRepository.save(order);
-    }
-}
+        Order savedOrder = orderRepository.save(order);
 
+        session.removeAttribute("cartItems");
+
+        return savedOrder;
+    }
+
+    public void deleteOrder(Long orderId) {
+
+        if (!orderRepository.existsById(orderId)) {
+            throw new RuntimeException("Order not found");
+        }
+
+        orderRepository.deleteById(orderId);
+    }
+
+}

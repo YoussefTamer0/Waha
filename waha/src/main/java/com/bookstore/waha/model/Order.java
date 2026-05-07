@@ -23,6 +23,7 @@ public class Order {
     private Double totalPrice;
 
     @OneToMany(mappedBy ="order",cascade = CascadeType.ALL)
+    @NotEmpty(message = "Order must contain at least one item")
     private List<OrderItem> items;
 
     public Order(Long id, String customerName, String address, Double totalPrice, List<OrderItem> items) {
