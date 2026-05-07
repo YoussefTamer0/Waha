@@ -61,12 +61,12 @@ public class Customer {
 		this.password = password;
 	}
 
-	public Integer getCustomerID() {
+	public Long getCustomerID() {
 		return customerID;
 	}
 
 
-	public void setCustomerID(Integer customerID) {
+	public void setCustomerID(Long customerID) {
 		this.customerID = customerID;
 	}
 
