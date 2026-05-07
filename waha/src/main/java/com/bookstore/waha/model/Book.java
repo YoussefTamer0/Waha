@@ -27,7 +27,7 @@ public class Book {
     private Integer publicationYear;
 
     @Column(name = "Price")
-    private BigDecimal price;
+    private double price;
 
     @Column(name = "book_Condition")
     private String bookCondition;
@@ -58,8 +58,8 @@ public class Book {
     public Integer getPublicationYear() { return publicationYear; }
     public void setPublicationYear(Integer publicationYear) { this.publicationYear = publicationYear; }
 
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
     public String getBookCondition() { return bookCondition; }
     public void setBookCondition(String bookCondition) { this.bookCondition = bookCondition; }

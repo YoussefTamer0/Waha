@@ -3,13 +3,14 @@ package com.bookstore.waha.controller;
 import com.bookstore.waha.Service.adminService;
 import com.bookstore.waha.model.Book;
 import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+@Controller
 public class AdminController {
     private final adminService adminservice;
     public AdminController(adminService adminservice){

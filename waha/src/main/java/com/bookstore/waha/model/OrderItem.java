@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @Entity
-@Table(name = "OrderItem")
+@Table(name = "order_item")
 
 public class OrderItem {
     @Id

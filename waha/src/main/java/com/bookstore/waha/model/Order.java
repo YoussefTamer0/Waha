@@ -4,11 +4,10 @@ import jakarta.validation.constraints.*;
 
 import java.util.List;
 
-
 @Entity
-@Table(name = "Orders")
-
+@Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +23,17 @@ public class Order {
 
     @OneToMany(mappedBy ="order",cascade = CascadeType.ALL)
     private List<OrderItem> items;
+
+    public Order(Long id, String customerName, String address, Double totalPrice, List<OrderItem> items) {
+        this.id = id;
+        this.customerName = customerName;
+        this.address = address;
+        this.totalPrice = totalPrice;
+        this.items = items;
+    }
+
+    public Order() {
+    }
 
     @NotEmpty(message = "Order must contain at least one item")
     public Long getId() {
