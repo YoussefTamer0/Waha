@@ -1,16 +1,16 @@
-package com.bookstore.waha.Service;
+package com.bookstore.waha.service;
 
 import com.bookstore.waha.model.Customer;
-import com.bookstore.waha.repository.customerRepository;
+import com.bookstore.waha.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class CustomerService {
-    private final customerRepository repo;
+    private final CustomerRepository repo;
 
-    public CustomerService(customerRepository repo) {
+    public CustomerService(CustomerRepository repo) {
         this.repo = repo;
     }
 

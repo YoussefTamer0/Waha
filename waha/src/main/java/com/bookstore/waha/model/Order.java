@@ -13,6 +13,7 @@ public class Order {
     private Long id;
     @NotBlank(message = "Customer name is required")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+    @JoinColumn(name = "customer_name")
     private String customerName;
     @NotBlank(message = "Address is required")
     @Size(min = 5, message = "Address must be at least 5 characters")
@@ -35,7 +36,7 @@ public class Order {
     public Order() {
     }
 
-    @NotEmpty(message = "Order must contain at least one item")
+
     public Long getId() {
         return id;
     }
@@ -68,6 +69,7 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
+    @NotEmpty(message = "Order must contain at least one item")
     public List<OrderItem> getItems() {
         return items;
     }

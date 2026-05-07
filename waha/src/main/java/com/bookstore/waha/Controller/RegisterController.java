@@ -2,6 +2,7 @@ package com.bookstore.waha.controller;
 
 import com.bookstore.waha.model.Book;
 import com.bookstore.waha.model.Customer;
+import com.bookstore.waha.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

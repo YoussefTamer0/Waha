@@ -8,8 +8,9 @@ import java.math.BigDecimal;
 public class Book {
 
     @Id
+    @GeneratedValue
     @Column(name = "bookID")
-    private Integer bookID;
+    private Long bookID;
 
     @Column(name = "Title")
     private String title;
@@ -34,14 +35,14 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "AuthorID")
-    private Authors author;
+    private Author author;
 
     @ManyToOne
     @JoinColumn(name = "PublisherID")
     private Publisher publisher;
 
-    public Integer getBookID() { return bookID; }
-    public void setBookID(Integer bookID) { this.bookID = bookID; }
+    public Long getBookID() { return bookID; }
+    public void setBookID(Long bookID) { this.bookID = bookID; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -64,8 +65,8 @@ public class Book {
     public String getBookCondition() { return bookCondition; }
     public void setBookCondition(String bookCondition) { this.bookCondition = bookCondition; }
 
-    public Authors getAuthor() { return author; }
-    public void setAuthor(authors author) { this.author = author; }
+    public Author getAuthor() { return author; }
+    public void setAuthor(Author author) { this.author = author; }
 
     public Publisher getPublisher() { return publisher; }
     public void setPublisher(Publisher publisher) { this.publisher = publisher; }

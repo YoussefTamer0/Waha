@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 
 @Entity
-@Table(name="authors")
+@Table(name="Author")
 
 public class authors {
 @Id
