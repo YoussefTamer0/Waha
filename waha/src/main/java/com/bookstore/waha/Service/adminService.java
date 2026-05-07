@@ -1,7 +1,9 @@
 package com.bookstore.waha.Service;
 
 import com.bookstore.waha.model.Admin;
+import com.bookstore.waha.model.Book;
 import com.bookstore.waha.repository.adminRepository;
+import com.bookstore.waha.repository.booksRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,24 +11,28 @@ import java.util.Optional;
 @Service
 public class adminService {
     private final adminRepository adminrepo;
+    private final booksRepository bookrepo;
 
-    public adminService(adminRepository adminrepo) {
+    public adminService(adminRepository adminrepo, booksRepository bookrepo) {
         this.adminrepo = adminrepo;
+        this.bookrepo=bookrepo;
 
     }
 
     public void addAdmin(Admin admin) {
-        if (admin.getAdminID() == null)
-            adminrepo.save(admin);
-        else
-            throw new RuntimeException("Admin already exists");
+
+        if (admin.getAdminID() != null && adminrepo.existsById(admin.getAdminID())) {
+            throw new RuntimeException("Admin with ID " + admin.getAdminID() + " already exists");
+        }
+        adminrepo.save(admin);
     }
 
     public void removeAdmin(Admin admin) {
-        if (admin.getAdminID() == null)
+
+        if (admin.getAdminID() == null || !adminrepo.existsById(admin.getAdminID())) {
             throw new RuntimeException("Admin doesnt exist");
-        else
-            adminrepo.delete(admin);
+        }
+        adminrepo.delete(admin);
     }
 
     public List<Admin> getAllAdmin() {
@@ -46,5 +52,22 @@ public class adminService {
             throw new RuntimeException("Admin doesn't exist with ID: " + ID);
         }
     }
+    public void addBook(Book book) {
 
+        if (book.getBookID() != null && bookrepo.existsById(book.getBookID())) {
+            throw new RuntimeException("Book already exists with ID: " + book.getBookID());
+        }
+        bookrepo.save(book);
+    }
+
+    public void deleteBook(Book book) {
+        if (book.getBookID() == null || !bookrepo.existsById(book.getBookID())) {
+            throw new RuntimeException("Book doesnt exist");
+        }
+        bookrepo.delete(book);
+    }
+    public Book findBookByID(Integer ID) {
+
+        return bookrepo.findById(ID).orElse(null);
+    }
 }

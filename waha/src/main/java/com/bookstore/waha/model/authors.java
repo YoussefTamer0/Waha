@@ -26,8 +26,7 @@ public Integer getAuthorId() {
 	return AuthorID;
 }
 public void setAuthorId(Integer authorId) {
-	AuthorID = authorId;
-}
+	AuthorID = authorId;}
 
 public String getFirstName() {
 	return firstName;
@@ -41,10 +40,10 @@ public String getLastName() {
 public void setLastName(String lastName) {
 	this.lastName = lastName;
 }
-public books getBook() {
+public Book getBook() {
 	return Book;
 }
-public void setBook(books book) {
+public void setBook(Book book) {
 	Book = book;
 }
 
