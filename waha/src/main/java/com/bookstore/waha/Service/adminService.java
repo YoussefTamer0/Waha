@@ -66,8 +66,16 @@ public class AdminService {
         }
         bookrepo.delete(book);
     }
-    public Book findBookByID(Integer ID) {
+    public Book findBookByID(Long ID) {
 
         return bookrepo.findById(ID).orElse(null);
+    }
+    public Admin login(String email, String password) {
+        Admin admin = adminrepo.findByEmail(email);
+
+        if (admin != null && admin.getPassword().equals(password)) {
+            return admin;
+        }
+        return null;
     }
 }
