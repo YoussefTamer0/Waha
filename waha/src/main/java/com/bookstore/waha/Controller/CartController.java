@@ -6,11 +6,13 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/Cart")
 public class CartController {
 
     private final BookRepository bookRepository;
@@ -19,50 +21,67 @@ public class CartController {
         this.bookRepository = bookRepository;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/Add")
     public String addToCart(@RequestParam Integer bookID,
                             @RequestParam int quantity,
-                            HttpSession session) {
+                            HttpSession session,
+                            RedirectAttributes redirectAttributes) {
 
-        Book book = bookRepository.findById(bookID)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
 
-        List<CartItem> cart =
-                (List<CartItem>) session.getAttribute("cartItems");
+        if (quantity < 1) {
+            redirectAttributes.addFlashAttribute("error", "Quantity must be at least 1");
+            return "redirect:/cart/view";
+        }
 
+
+        Optional<Book> bookOptional = bookRepository.findById(bookID);
+        if (bookOptional.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Book not found");
+            return "redirect:/Cart/view";
+        }
+
+        Book book = bookOptional.get();
+
+
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cartItems");
         if (cart == null) {
             cart = new ArrayList<>();
         }
 
-        cart.add(new CartItem(book, quantity));
+        for (CartItem item : cart) {
+            if (item.getBook().getBookID().equals(bookID)) {
+                int newQuantity = item.getQuantity() + quantity;
+                item.setQuantity(newQuantity);
+                session.setAttribute("cartItems", cart);
+                redirectAttributes.addFlashAttribute("success", "Added to cart");
+                return "redirect:/cart/view";
+            }
+        }
 
+
+        cart.add(new CartItem(book, quantity));
         session.setAttribute("cartItems", cart);
+        redirectAttributes.addFlashAttribute("success", "Added to cart");
 
         return "redirect:/cart/view";
     }
 
-
     @GetMapping("/view")
     public String viewCart(HttpSession session, Model model) {
-
-        List<CartItem> cart =
-                (List<CartItem>) session.getAttribute("cartItems");
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cartItems");
 
         if (cart == null) {
             cart = new ArrayList<>();
         }
 
         model.addAttribute("cartItems", cart);
-
         return "cart";
     }
 
-
-    @GetMapping("/clear")
-    public String clearCart(HttpSession session) {
-
+    @GetMapping("/Clear")
+    public String clearCart(HttpSession session, RedirectAttributes redirectAttributes) {
         session.removeAttribute("cartItems");
-
+        redirectAttributes.addFlashAttribute("success", "Cart cleared");
         return "redirect:/";
     }
 }

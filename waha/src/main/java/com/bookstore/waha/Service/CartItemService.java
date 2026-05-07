@@ -21,9 +21,7 @@ public class CartItemService {
     }
 
     public void removeItem(List<CartItem> cart, Integer bookID) {
-        cart.removeIf(item ->
-                item.getBook().getBookID().equals(bookID)
-        );
+        cart.removeIf(item -> item.getBook().getBookID().equals(bookID));
     }
 
     public double calculateTotal(List<CartItem> cart) {
