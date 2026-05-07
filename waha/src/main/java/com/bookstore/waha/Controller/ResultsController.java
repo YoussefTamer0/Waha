@@ -1,6 +1,7 @@
 package com.bookstore.waha.controller;
 
 import com.bookstore.waha.model.Book;
+import com.bookstore.waha.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -51,5 +52,4 @@ public class ResultsController {
         model.addAttribute("book", book);
         return "/books/book-details";
     }
-}
 }

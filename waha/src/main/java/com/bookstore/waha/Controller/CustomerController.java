@@ -1,6 +1,6 @@
-package com.bookstore.waha.Controller;
+package com.bookstore.waha.controller;
 
-import com.bookstore.waha.Service.CustomerService;
+import com.bookstore.waha.service.CustomerService;
 import com.bookstore.waha.model.Customer;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;

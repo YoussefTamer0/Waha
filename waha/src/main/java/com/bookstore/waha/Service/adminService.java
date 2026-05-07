@@ -2,18 +2,18 @@ package com.bookstore.waha.service;
 
 import com.bookstore.waha.model.Admin;
 import com.bookstore.waha.model.Book;
-import com.bookstore.waha.repository.adminRepository;
-import com.bookstore.waha.repository.booksRepository;
+import com.bookstore.waha.repository.AdminRepository;
+import com.bookstore.waha.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service
-public class adminService {
-    private final adminRepository adminrepo;
-    private final booksRepository bookrepo;
+public class AdminService {
+    private final AdminRepository adminrepo;
+    private final BookRepository bookrepo;
 
-    public adminService(adminRepository adminrepo, booksRepository bookrepo) {
+    public AdminService(AdminRepository adminrepo, BookRepository bookrepo) {
         this.adminrepo = adminrepo;
         this.bookrepo=bookrepo;
 
