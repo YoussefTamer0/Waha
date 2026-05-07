@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${book.title} + ' | Novella'">Book Details | Novella</title>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+          rel="stylesheet"
+  />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:      #caba9c;
+      --parchment:  #f0e9dc;
+      --gold:       #4c6444;
+      --gold-lt:    #d48e0c;
+      --ink:        #4d2d18;
+      --ink-mid:    #4d2d18;
+      --ink-muted:  #7a5c44;
+      --border:     #4d2d18;
+      --red:        #9b1c1c;
+      --serif:      "Cormorant Garamond", Georgia, serif;
+      --sans:       "DM Sans", sans-serif;
+      --radius:     4px;
+    }
+
+    html  { scroll-behavior: smooth; }
+    body  { font-family: var(--sans); background: var(--cream); color: var(--ink); line-height: 1.7; font-size: 16px; }
+
+
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--cream); border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1200px; margin: 0 auto; height: 72px;
+    }
+    .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+    .logo-word    { font-family: var(--serif); font-size: 30px; font-weight: 300; letter-spacing: .12em; color: var(--ink); }
+    .logo-tagline { font-size: 9px; font-weight: bold; letter-spacing: .35em; text-transform: uppercase; color: var(--gold-lt); margin-top: 2px; }
+
+    nav { display: flex; gap: 36px; align-items: center; }
+    nav a {
+      text-decoration: none; font-size: 12px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--gold-lt); }
+
+    .cart-link {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--ink); color: var(--parchment) !important;
+      padding: 8px 18px; border-radius: var(--radius); font-size: 12px;
+      font-weight: 500; letter-spacing: .08em; text-decoration: none;
+      transition: background .2s;
+    }
+    .cart-link:hover { background: var(--gold); }
+
+
+    .breadcrumb {
+      max-width: 1100px; margin: 24px auto 0; padding: 0 5%;
+      font-size: 12px; letter-spacing: .08em; color: var(--ink-muted);
+    }
+    .breadcrumb a { color: var(--ink-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--gold-lt); }
+    .breadcrumb span { margin: 0 6px; }
+
+
+    .page-wrapper {
+      max-width: 1100px; margin: 40px auto 80px;
+      padding: 0 5%;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 60px;
+    }
+
+
+    .cover-panel { display: flex; flex-direction: column; gap: 20px; }
+
+    .book-cover {
+      width: 100%; aspect-ratio: 2/3;
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .book-cover img { width: 100%; height: 100%; object-fit: cover; }
+    .book-cover .cover-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 12px; color: var(--ink-muted); text-align: center; padding: 20px;
+    }
+    .book-cover .cover-placeholder .icon { font-size: 64px; }
+    .book-cover .cover-placeholder p  { font-family: var(--serif); font-size: 18px; font-style: italic; }
+
+    .condition-badge {
+      display: inline-block; align-self: flex-start;
+      padding: 4px 14px; border-radius: 20px; font-size: 11px;
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    }
+    .condition-new  { background: #d4edda; color: #155724; }
+    .condition-good { background: #fff3cd; color: #856404; }
+    .condition-fair { background: #f8d7da; color: var(--red); }
+    .condition-default { background: var(--parchment); color: var(--ink-muted); }
+
+
+    .details-panel {}
+
+    .book-genre {
+      font-size: 11px; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold-lt); margin-bottom: 10px;
+    }
+    .book-title {
+      font-family: var(--serif); font-size: 42px; font-weight: 300;
+      line-height: 1.15; color: var(--ink); margin-bottom: 8px;
+    }
+    .book-author {
+      font-size: 15px; color: var(--ink-muted); margin-bottom: 30px;
+    }
+    .book-author a { color: var(--gold-lt); text-decoration: none; }
+    .book-author a:hover { text-decoration: underline; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; opacity: .3; }
+
+
+    .price-row {
+      display: flex; align-items: baseline; gap: 10px; margin-bottom: 28px;
+    }
+    .price-main { font-family: var(--serif); font-size: 38px; font-weight: 300; color: var(--ink); }
+    .price-note { font-size: 12px; color: var(--ink-muted); letter-spacing: .05em; }
+
+    .actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 36px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 13px 30px; border-radius: var(--radius); font-size: 13px;
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; border: none; text-decoration: none; transition: all .2s;
+    }
+    .btn-primary   { background: var(--ink); color: var(--parchment); }
+    .btn-primary:hover   { background: #2a1508; }
+    .btn-secondary { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+    .btn-secondary:hover { background: var(--parchment); }
+    .btn-danger    { background: transparent; color: var(--red); border: 1px solid var(--red); }
+    .btn-danger:hover    { background: #fdf0f0; }
+
+
+    .meta-grid {
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 10px 24px; font-size: 14px;
+    }
+    .meta-label { font-weight: 500; color: var(--ink-muted); white-space: nowrap; }
+    .meta-value { color: var(--ink); }
+
+
+    .stock-strip {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 20px; background: var(--parchment);
+      border-left: 3px solid var(--gold); border-radius: var(--radius);
+      font-size: 14px; margin-bottom: 28px;
+    }
+    .stock-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
+    .dot-green  { background: #28a745; }
+    .dot-yellow { background: #ffc107; }
+    .dot-red    { background: var(--red); }
+
+
+    .flash {
+      max-width: 1100px; margin: 0 auto 0; padding: 0 5%;
+    }
+    .flash-success, .flash-error {
+      padding: 12px 20px; border-radius: var(--radius);
+      font-size: 14px; margin-top: 20px;
+    }
+    .flash-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .flash-error   { background: #f8d7da; color: var(--red); border: 1px solid #f5c6cb; }
+
+
+    @media (max-width: 780px) {
+      .page-wrapper { grid-template-columns: 1fr; gap: 30px; }
+      .book-cover   { max-width: 280px; }
+      .book-title   { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+
+<header>
+  <div class="header-inner">
+    <a class="logo" th:href="@{/}">
+      <span class="logo-word">Novella</span>
+      <span class="logo-tagline">Bookstore</span>
+    </a>
+    <nav>
+      <a th:href="@{/books}">Catalogue</a>
+      <a th:href="@{/books/search}">Search</a>
+      <a th:href="@{/customer/login}">Account</a>
+      <a class="cart-link" th:href="@{/cart}">🛒 Cart</a>
+    </nav>
+  </div>
+</header>
+
+
+<div class="flash">
+  <div class="flash-success" th:if="${message}" th:text="${message}"></div>
+  <div class="flash-error"   th:if="${error}"   th:text="${error}"></div>
+</div>
+
+
+<nav class="breadcrumb" aria-label="breadcrumb">
+  <a th:href="@{/}">Home</a>
+  <span>›</span>
+  <a th:href="@{/books}">Catalogue</a>
+  <span>›</span>
+  <span th:text="${book.title}">Book Title</span>
+</nav>
+
+
+<main class="page-wrapper" th:object="${book}">
+
+
+  <aside class="cover-panel">
+
+    <div class="book-cover">
+      <!-- Swap the placeholder below for a real <img> once a coverUrl field is added to Book -->
+      <div class="cover-placeholder">
+        <span class="icon">📖</span>
+        <p th:text="*{title}">Book Title</p>
+      </div>
+    </div>
+
+
+    <span
+            class="condition-badge"
+            th:classappend="${#strings.equalsIgnoreCase(book.bookCondition, 'New')}  ? 'condition-new'
+                          : (${#strings.equalsIgnoreCase(book.bookCondition, 'Good')} ? 'condition-good'
+                          : (${#strings.equalsIgnoreCase(book.bookCondition, 'Fair')} ? 'condition-fair'
+                          : 'condition-default'))"
+            th:text="${book.bookCondition} ?: 'Unknown Condition'">
+            Condition
+        </span>
+
+
+    <div class="stock-strip" th:if="${inventory != null}">
+            <span class="stock-dot"
+                  th:classappend="${inventory.quantity > inventory.minStockLevel} ? 'dot-green'
+                                : (${inventory.quantity > 0}                     ? 'dot-yellow'
+                                : 'dot-red')">
+            </span>
+      <span th:if="${inventory.quantity > inventory.minStockLevel}">In Stock</span>
+      <span th:if="${inventory.quantity > 0 and inventory.quantity <= inventory.minStockLevel}">
+                Low Stock — only <strong th:text="${inventory.quantity}">0</strong> left
+            </span>
+      <span th:if="${inventory.quantity == 0}">Out of Stock</span>
+    </div>
+
+  </aside>
+
+
+  <section class="details-panel">
+
+    <p class="book-genre"  th:text="*{genre}">Genre</p>
+    <h1 class="book-title" th:text="*{title}">Book Title</h1>
+
+    <p class="book-author">
+      by
+      <th:block th:if="${book.author != null}">
+        <a th:href="@{/books(authorId=${book.author.authorId})}"
+           th:text="${book.author.firstName + ' ' + book.author.lastName}">Author Name</a>
+      </th:block>
+      <th:block th:unless="${book.author != null}">
+        <span>Unknown Author</span>
+      </th:block>
+    </p>
+
+    <hr class="divider" />
+
+
+    <div class="price-row">
+      <span class="price-main" th:text="'$' + ${#numbers.formatDecimal(book.price, 1, 2)}">$0.00</span>
+      <span class="price-note">incl. tax</span>
+    </div>
+
+
+    <div class="actions">
+      <form th:action="@{/cart/add}" method="post" style="display:inline">
+        <input type="hidden" name="bookID" th:value="*{bookID}" />
+        <input type="hidden" name="quantity" value="1" />
+        <button class="btn btn-primary" type="submit">Add to Cart</button>
+      </form>
+    </div>
+
+    <hr class="divider" />
+
+
+    <div class="meta-grid">
+
+      <span class="meta-label">ISBN</span>
+      <span class="meta-value" th:text="*{isbn} ?: '—'">—</span>
+
+      <span class="meta-label">Type</span>
+      <span class="meta-value" th:text="*{type} ?: '—'">—</span>
+
+      <span class="meta-label">Publication Year</span>
+      <span class="meta-value" th:text="*{publicationYear} ?: '—'">—</span>
+
+      <span class="meta-label">Genre</span>
+      <span class="meta-value" th:text="*{genre} ?: '—'">—</span>
+
+      <span class="meta-label">Condition</span>
+      <span class="meta-value" th:text="*{bookCondition} ?: '—'">—</span>
+
+      <th:block th:if="${book.publisher != null}">
+        <span class="meta-label">Publisher</span>
+        <span class="meta-value" th:text="${book.publisher.name}">—</span>
+
+        <span class="meta-label">Publisher Country</span>
+        <span class="meta-value" th:text="${book.publisher.country}">—</span>
+      </th:block>
+
+    </div>
+
+    <!-- Admin-only management links (show only when admin session is set) -->
+    <th:block th:if="${session.loggedAdmin != null}">
+      <hr class="divider" />
+      <div class="actions">
+        <a class="btn btn-secondary"
+           th:href="@{/admin/books/edit(bookID=*{bookID})}">Edit Book</a>
+
+        <form th:action="@{/admin/books/delete}" method="post" style="display:inline">
+          <input type="hidden" name="bookID" th:value="*{bookID}" />
+          <button class="btn btn-danger" type="submit"
+                  onclick="return confirm('Are you sure you want to delete this book?')">
+            Delete Book
+          </button>
+        </form>
+      </div>
+    </th:block>
+
+  </section>
+</main>
+
+</body>
+</html>
