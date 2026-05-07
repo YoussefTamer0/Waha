@@ -2,7 +2,7 @@ package com.bookstore.waha.Service;
 
 import com.bookstore.waha.model.Book;
 import com.bookstore.waha.model.Publisher;
-import com.bookstore.waha.repository.booksRepository;
+import com.bookstore.waha.repository.BookRepository;
 import com.bookstore.waha.repository.publishersRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public class publishersService {
-    private final booksRepository bookrepo;
+    private final BookRepository bookrepo;
    private final publishersRepository publisherrepo;
-   public publishersService( publishersRepository publisherrepo, booksRepository bookrepo){
+   public publishersService( publishersRepository publisherrepo, BookRepository bookrepo){
        this.bookrepo=bookrepo;
        this.publisherrepo=publisherrepo;
    }
