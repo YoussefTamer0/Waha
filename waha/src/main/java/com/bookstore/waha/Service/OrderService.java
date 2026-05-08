@@ -71,4 +71,30 @@ public class OrderService {
         orderRepository.deleteById(orderId);
     }
 
+    public long countOrders() {
+        return orderRepository.count();
+    }
+
+    public double getTotalRevenue() {
+        return orderRepository.findAll().stream()
+                .mapToDouble(order -> order.getTotalPrice() != null ? order.getTotalPrice() : 0)
+                .sum();
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    public List<Order> searchOrders(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            return getAllOrders();
+        }
+        return orderRepository.findAll().stream()
+                .filter(order -> (order.getCustomerName() != null &&
+                        order.getCustomerName().toLowerCase().contains(keyword.toLowerCase())) ||
+                        (order.getAddress() != null &&
+                                order.getAddress().toLowerCase().contains(keyword.toLowerCase())))
+                .toList();
+    }
+
 }
