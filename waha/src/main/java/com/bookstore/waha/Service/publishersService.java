@@ -35,12 +35,12 @@ public class publishersService {
        List<Publisher> publishers= publisherrepo.findAll();
        return publishers;
    }
-   public Publisher findPublisherbyID(long ID){
+   public Publisher findPublisherbyID(Long ID){
       Optional<Publisher> publisher= publisherrepo.findById(ID);
        return publisher.orElse(null);
    }
     @Transactional
-    public void addExistingBookToPublisher(long publisherID, long bookID) {
+    public void addExistingBookToPublisher(Long publisherID, Long bookID) {
         Publisher publisher = publisherrepo.findById(publisherID)
                 .orElseThrow(() -> new RuntimeException("Publisher not found with ID: " + publisherID));
 
