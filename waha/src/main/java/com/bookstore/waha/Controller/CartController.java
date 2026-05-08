@@ -1,4 +1,4 @@
-package com.bookstore.waha.controller;
+package com.bookstore.waha.Controller;
 import com.bookstore.waha.model.Book;
 import com.bookstore.waha.model.CartItem;
 import com.bookstore.waha.repository.BookRepository;
@@ -83,5 +83,44 @@ public class CartController {
         session.removeAttribute("cartItems");
         redirectAttributes.addFlashAttribute("success", "Cart cleared");
         return "redirect:/";
+    }
+    @PostMapping("/update")
+    public String updateCart(@RequestParam Long bookId,
+                             @RequestParam int quantity,
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes) {
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cartItems");
+
+        if (cart != null) {
+            for (CartItem item : cart) {
+                if (item.getBook().getBookID().equals(bookId)) {
+                    if (quantity <= 0) {
+                        cart.remove(item);
+                    } else {
+                        item.setQuantity(quantity);
+                    }
+                    break;
+                }
+            }
+            session.setAttribute("cartItems", cart);
+        }
+
+        redirectAttributes.addFlashAttribute("success", "Cart updated");
+        return "redirect:/cart/view";
+    }
+
+    @GetMapping("/remove")
+    public String removeFromCart(@RequestParam Long bookId,
+                                 HttpSession session,
+                                 RedirectAttributes redirectAttributes) {
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cartItems");
+
+        if (cart != null) {
+            cart.removeIf(item -> item.getBook().getBookID().equals(bookId));
+            session.setAttribute("cartItems", cart);
+            redirectAttributes.addFlashAttribute("success", "Item removed from cart");
+        }
+
+        return "redirect:/cart/view";
     }
 }
