@@ -19,34 +19,45 @@ import java.util.List;
 
 @Controller
 public class AdminController {
+
     private final AdminService adminservice;
-    private final com.bookstore.waha.Service.BookService bookService;
-    private final com.bookstore.waha.Service.OrderService orderService;
-    public AdminController(AdminService adminservice, BookService bookService, OrderService orderService){
-        this.adminservice=adminservice;
-        this.orderService=orderService;
-        this.bookService=bookService;
+    private final BookService bookService;
+    private final OrderService orderService;
+
+    public AdminController(AdminService adminservice, BookService bookService, OrderService orderService) {
+        this.adminservice = adminservice;
+        this.orderService = orderService;
+        this.bookService = bookService;
     }
 
-    @PostMapping("admin/books/add")
-    public String insertBook(@Valid @ModelAttribute("book") Book book, BindingResult result, Model model, RedirectAttributes redirectAttributes){
-       if(result.hasErrors()){
-           model.addAttribute("message", "Error occured.");
-           return"admin/managebooks";
-       }
+    @GetMapping("/admin/managebooks")
+    public String manageBooks(Model model) {
+        model.addAttribute("books", bookService.getAllBooks());
+        model.addAttribute("book", new Book());
+        return "admin/managebooks";
+    }
+
+    @PostMapping("/admin/books/add")
+    public String insertBook(@Valid @ModelAttribute("book") Book book,
+                             BindingResult result,
+                             Model model,
+                             RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("books", bookService.getAllBooks());
+            model.addAttribute("message", "Error occurred.");
+            return "admin/managebooks";
+        }
         adminservice.addBook(book);
-        redirectAttributes.addFlashAttribute("message", "Book Added successfully!");
-        return"redirect:/admin/managebooks";
+        redirectAttributes.addFlashAttribute("message", "Book added successfully!");
+        return "redirect:/admin/managebooks";
     }
 
-    @PostMapping("admin/books/delete")
-    public String removeBook(@RequestParam("bookID") Long bookID, RedirectAttributes redirectAttributes) {
+    @PostMapping("/admin/books/delete")
+    public String removeBook(@RequestParam("bookID") Long bookID,
+                             RedirectAttributes redirectAttributes) {
         try {
-
             Book book = adminservice.findBookByID(bookID);
-
             if (book != null) {
-
                 adminservice.deleteBook(book);
                 redirectAttributes.addFlashAttribute("message", "Book deleted successfully!");
             } else {
@@ -56,21 +67,19 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("message", "An error occurred while trying to delete the book.");
         }
 
-
-        return "redirect:/admin/books/manage";
+        return "redirect:/admin/managebooks";
     }
 
     @PostMapping("/admin/orders/delete")
-    public String deleteOrder(@RequestParam(required = false) Long orderID, RedirectAttributes redirectAttributes) {
+    public String deleteOrder(@RequestParam(required = false) Long orderID,
+                              RedirectAttributes redirectAttributes) {
         try {
             if (orderID == null) {
                 redirectAttributes.addFlashAttribute("error", "Order ID is required");
-                return "redirect:/admin/orders/manage";
+                return "redirect:/admin/manageorders";
             }
-
             adminservice.clearOrder(orderID);
             redirectAttributes.addFlashAttribute("message", "Order #" + orderID + " deleted successfully");
-
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         } catch (RuntimeException e) {
@@ -78,8 +87,7 @@ public class AdminController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to delete order: " + e.getMessage());
         }
-
-        return "redirect:/admin/orders/manage";
+        return "redirect:/admin/manageorders";
     }
 
     @GetMapping("/admin/dashboard")
@@ -89,24 +97,17 @@ public class AdminController {
         model.addAttribute("totalRevenue", orderService.getTotalRevenue());
         return "admin/dashboard";
     }
-    @GetMapping("/admin/orders/manage")
-    public String manageOrders(
-            @RequestParam(required = false) String keyword,
-            Model model
-    ) {
+
+    @GetMapping("/admin/manageorders")
+    public String manageOrders(@RequestParam(required = false) String keyword, Model model) {
         List<Order> orders;
-
         if (keyword != null && !keyword.trim().isEmpty()) {
-
             orders = orderService.searchOrders(keyword);
             model.addAttribute("keyword", keyword);
         } else {
-
             orders = orderService.getAllOrders();
         }
-
         model.addAttribute("orders", orders);
         return "admin/ManageOrders";
     }
-
 }

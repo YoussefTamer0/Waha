@@ -20,6 +20,12 @@ public class ResultsController {
         this.bookService = bookService;
     }
 
+    @GetMapping("/books")
+    public String bookList(Model model) {
+        model.addAttribute("books", bookService.getAllBooks());
+        return "/books/BookList";
+    }
+
     @GetMapping("/books/search")
     public String getResults(@RequestParam(required = false) String query,
                              @RequestParam(defaultValue = "0") int page,

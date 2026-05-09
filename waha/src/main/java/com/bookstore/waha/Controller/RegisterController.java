@@ -29,8 +29,9 @@ public class RegisterController {
     public String addCustomer(@Valid @ModelAttribute("customer") Customer customer,
                               BindingResult result,
                               Model model) {
+
+
         if (result.hasErrors()) {
-            model.addAttribute("message", "Cannot register. Please check your input.");
             return "customers/register";
         }
 

@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmation</title>
+    <title>Order Confirmation</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<nav style="padding: 10px 20px; background: #6B4028; display: flex; gap: 20px; align-items: center;">
+    <a th:href="@{/home}" style="color: #fff; text-decoration: none; font-weight: bold;">🏠 Home</a>
+    <a th:href="@{/books}" style="color: #fff; text-decoration: none;">Books</a>
+    <a th:href="@{/orders/history}" style="color: #fff; text-decoration: none;">My Orders</a>
+    <a th:href="@{/customer/profile}" style="color: #fff; text-decoration: none; margin-left: auto;">My Profile</a>
+</nav>
 
 <h2>Order Placed Successfully 🎉</h2>
 
@@ -25,8 +32,12 @@
         </li>
     </ul>
 
-</div>
+    <div style="margin-top: 20px; display: flex; gap: 12px;">
+        <a th:href="@{/books}" style="padding: 10px 20px; background: #6B4028; color: #fff; text-decoration: none; border-radius: 6px;">Continue Shopping</a>
+        <a th:href="@{/orders/history}" style="padding: 10px 20px; background: #3a6e47; color: #fff; text-decoration: none; border-radius: 6px;">View My Orders</a>
+    </div>
 
+</div>
 
 </body>
 </html>

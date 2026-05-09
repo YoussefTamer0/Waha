@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Checkout</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<nav style="padding: 10px 20px; background: #6B4028; display: flex; gap: 20px; align-items: center;">
+    <a th:href="@{/home}" style="color: #fff; text-decoration: none; font-weight: bold;">🏠 Home</a>
+    <a th:href="@{/books}" style="color: #fff; text-decoration: none;">Books</a>
+    <a th:href="@{/cart/view}" style="color: #fff; text-decoration: none;">🛒 Cart</a>
+    <a th:href="@{/customer/profile}" style="color: #fff; text-decoration: none; margin-left: auto;">My Profile</a>
+</nav>
 
 <h2>Checkout</h2>
 

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Service
 public class CustomerService {
+
     private final CustomerRepository repo;
 
     public CustomerService(CustomerRepository repo) {
@@ -15,32 +16,15 @@ public class CustomerService {
     }
 
     public Customer register(Customer customer) {
-        try {
 
-            // Remove extra spaces and make email lowercase
-            customer.setEmail(customer.getEmail().trim().toLowerCase());
+        customer.setEmail(customer.getEmail().trim().toLowerCase());
+        customer.setPassword(customer.getPassword().trim());
 
-            // Remove extra spaces from password
-            customer.setPassword(customer.getPassword().trim());
-
-            // Check if email already exists
-            if (repo.findByEmail(customer.getEmail()).isPresent()) {
-                throw new RuntimeException(
-                        "Email already registered: " + customer.getEmail()
-                );
-            }
-
-            // Save customer in database
-            return repo.save(customer);
-
-        } catch (Exception e) {
-
-            // Print error in console
-            System.out.println("Error during registration: " + e.getMessage());
-
-            // Re-throw exception
-            throw new RuntimeException("Registration failed", e);
+        if (repo.findByEmail(customer.getEmail()).isPresent()) {
+            return null;
         }
+
+        return repo.save(customer);
     }
 
     public Customer login(String email, String password) {
@@ -60,6 +44,7 @@ public class CustomerService {
     }
 
     public Customer update(Customer customer) {
+
         if (customer.getCustomerID() == null) {
             throw new RuntimeException("Customer ID cannot be null for update");
         }
@@ -71,4 +56,3 @@ public class CustomerService {
         return repo.save(customer);
     }
 }
-
