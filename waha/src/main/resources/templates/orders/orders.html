@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order History - Novella</title>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+          rel="stylesheet"
+  />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #caba9c;
+      --parchment: #f0e9dc;
+      --gold: #4c6444;
+      --gold-lt: #d48e0c;
+      --ink: #4d2d18;
+      --ink-mid: #4d2d18;
+      --ink-muted: #000000;
+      --border: #4d2d18;
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "DM Sans", sans-serif;
+      --radius: 4px;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 72px;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      text-decoration: none;
+    }
+
+    .logo-word {
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+    }
+
+    .logo-tagline {
+      font-size: 9px;
+      font-weight: bold;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-top: 2px;
+    }
+
+    nav {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--gold);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--ink-mid);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .icon-btn:hover {
+      color: var(--gold);
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-lt);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 10px 24px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      background: var(--gold);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 5%;
+    }
+
+    .alert {
+      padding: 15px 20px;
+      border-radius: 6px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    .alert-success {
+      background: #d1e7dd;
+      color: #0a3622;
+      border: 1px solid #a3cfbb;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+    }
+
+    .close-alert {
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .page-header h1 {
+      font-family: var(--serif);
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-bar input {
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--sans);
+      font-size: 13px;
+      background: #fff;
+      width: 250px;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .table-container {
+      overflow-x: auto;
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    th {
+      padding: 15px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    tbody tr:hover {
+      background: rgba(76, 100, 68, 0.1);
+    }
+
+    .order-details {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-top: 5px;
+    }
+
+    .order-items {
+      margin-top: 5px;
+      font-size: 11px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-delivered {
+      background: var(--gold);
+      color: white;
+    }
+
+    .badge-pending {
+      background: #856404;
+      color: white;
+    }
+
+    .badge-shipped {
+      background: #17a2b8;
+      color: white;
+    }
+
+    .empty-orders {
+      text-align: center;
+      padding: 60px;
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .empty-orders-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-links a {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 0 12px;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .search-bar {
+        width: 100%;
+      }
+      .search-bar input {
+        width: 100%;
+      }
+      nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" th:href="@{/home}">
+      <span class="logo-word">Novella</span>
+      <span class="logo-tagline">A World of Stories</span>
+    </a>
+    <nav>
+      <a th:href="@{/home}">Home</a>
+      <a th:href="@{/books}">Books</a>
+      <a th:href="@{/orders/history}">Orders</a>
+    </nav>
+    <div class="header-actions">
+      <a th:href="@{/cart/view}" class="icon-btn" title="Cart">🛒</a>
+      <a th:href="@{/customer/profile}" class="btn-primary">My Profile</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Order History</h1>
+    <form th:action="@{/orders/search}" method="get" class="search-bar">
+      <input type="text" name="keyword" placeholder="Search by name or address..." th:value="${searchKeyword}">
+      <button type="submit" class="btn-primary">Search</button>
+      <a th:href="@{/orders/history}" class="btn-secondary">Reset</a>
+    </form>
+  </div>
+
+  <div th:if="${success}" class="alert alert-success">
+    <span th:text="${success}"></span>
+    <span class="close-alert" onclick="this.parentElement.style.display='none'">&times;</span>
+  </div>
+  <div th:if="${error}" class="alert alert-error">
+    <span th:text="${error}"></span>
+    <span class="close-alert" onclick="this.parentElement.style.display='none'">&times;</span>
+  </div>
+
+  <div th:if="${#lists.isEmpty(orders)}" class="empty-orders">
+    <div class="empty-orders-icon">📦</div>
+    <h3>No orders yet</h3>
+    <p style="margin-top: 10px;">Start shopping to see your order history!</p>
+    <a th:href="@{/books}" class="btn-primary" style="margin-top: 20px; display: inline-block;">Browse Books</a>
+  </div>
+
+  <div th:if="${!#lists.isEmpty(orders)}" class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th>Order #</th>
+        <th>Customer</th>
+        <th>Address</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="order : ${orders}">
+        <td>
+          <strong>#<span th:text="${order.id}"></span></strong>
+        </td>
+        <td th:text="${order.customerName}">Customer Name</td>
+        <td th:text="${order.address}">Address</td>
+        <td>
+          <div th:each="item : ${order.items}" class="order-items">
+            <span th:text="${item.quantity}"></span> ×
+            <span th:text="${item.book.title}"></span>
+          </div>
+        </td>
+        <td>$<span th:text="${#numbers.formatDecimal(order.totalPrice, 1, 2)}"></span></td>
+        <td>
+          <span class="badge badge-delivered" th:if="${order.status == 'Delivered'}">Delivered</span>
+          <span class="badge badge-pending" th:if="${order.status == null or order.status == 'Pending'}">Pending</span>
+          <span class="badge badge-shipped" th:if="${order.status == 'Shipped'}">Shipped</span>
+        </td>
+        <td th:text="${#dates.format(order.orderDate, 'MMM dd, yyyy')}">Date</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer-links">
+    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/books}">Books</a>
+    <a th:href="@{/orders/history}">Order History</a>
+    <a th:href="@{/customer/profile}">My Profile</a>
+    <p style="margin-top: 20px; font-size: 11px;">© 2025 Novella Bookstore</p>
+  </div>
+</div>
+
+<script>
+  setTimeout(function() {
+    var alerts = document.querySelectorAll('.alert');
+    for(var i = 0; i < alerts.length; i++) {
+      alerts[i].style.transition = 'opacity 0.5s';
+      alerts[i].style.opacity = '0';
+      setTimeout(function(alert) {
+        alert.style.display = 'none';
+      }, 500, alerts[i]);
+    }
+  }, 5000);
+</script>
+
+</body>
+</html>

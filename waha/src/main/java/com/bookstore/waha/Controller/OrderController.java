@@ -9,10 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -83,5 +80,20 @@ public class OrderController {
     @GetMapping("/confirmation")
     public String confirmation() {
         return "Confirmation";
+    }
+
+    @GetMapping("/history")
+    public String orderHistory(Model model) {
+        List<Order> orders = orderService.getAllOrders();
+        model.addAttribute("orders", orders);
+        return "orders";
+    }
+
+    @GetMapping("/search")
+    public String searchOrders(@RequestParam(required = false) String keyword, Model model) {
+        List<Order> orders = orderService.searchOrders(keyword);
+        model.addAttribute("orders", orders);
+        model.addAttribute("searchKeyword", keyword);
+        return "orders";
     }
 }
