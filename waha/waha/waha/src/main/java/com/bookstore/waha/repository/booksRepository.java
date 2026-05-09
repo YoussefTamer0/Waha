@@ -1,6 +1,6 @@
-package com.bookstore.waha.repository;
+package com.bookstore.waha.Repository;
 
-import com.bookstore.waha.model.books;
+import com.bookstore.waha.Model.books;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,9 @@
 package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.CartItem;
-import com.bookstore.waha.model.Order;
-import com.bookstore.waha.model.OrderItem;
-import com.bookstore.waha.repository.OrderRepository;
+import com.bookstore.waha.Model.CartItem;
+import com.bookstore.waha.Model.Order;
+import com.bookstore.waha.Model.OrderItem;
+import com.bookstore.waha.Repository.OrderRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 

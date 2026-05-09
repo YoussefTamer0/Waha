@@ -1,6 +1,5 @@
-package com.bookstore.waha.model;
+package com.bookstore.waha.Model;
 
-import com.bookstore.waha.model.Book;
 import jakarta.persistence.*;
 
 @Entity

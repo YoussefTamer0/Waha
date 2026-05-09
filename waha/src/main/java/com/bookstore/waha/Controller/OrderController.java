@@ -1,10 +1,8 @@
 package com.bookstore.waha.Controller;
-import com.bookstore.waha.model.CartItem;
-import com.bookstore.waha.model.Order;
+import com.bookstore.waha.Model.CartItem;
+import com.bookstore.waha.Model.Order;
 import com.bookstore.waha.Service.OrderService;
 import jakarta.servlet.http.HttpSession;
-import com.bookstore.waha.model.Order;
-import com.bookstore.waha.Service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +25,7 @@ public class OrderController {
     @GetMapping("/Checkout")
     public String checkoutPage(Model model) {
         model.addAttribute("order", new Order());
-        return "Checkout";
+        return "orders/Checkout";
     }
 
     @PostMapping("/place")
@@ -39,7 +37,7 @@ public class OrderController {
 
         // 1. Validate form input
         if (result.hasErrors()) {
-            return "Checkout";
+            return "orders/Checkout";
         }
 
         // 2. Validate cart is not empty
@@ -48,14 +46,14 @@ public class OrderController {
 
         if (cartItems == null || cartItems.isEmpty()) {
             model.addAttribute("cartError", "Your cart is empty");
-            return "Checkout";
+            return "orders/Checkout";
         }
 
         // 3. Validate cart has items with valid quantities
         boolean hasValidItems = cartItems.stream().allMatch(item -> item.getQuantity() > 0);
         if (!hasValidItems) {
             model.addAttribute("cartError", "Cart contains invalid quantities");
-            return "Checkout";
+            return "orders/Checkout";
         }
 
         try {
@@ -73,7 +71,7 @@ public class OrderController {
 
         } catch (Exception e) {
             model.addAttribute("error", "Failed to place order: " + e.getMessage());
-            return "Checkout";
+            return "orders/Checkout";
         }
     }
 
@@ -86,7 +84,7 @@ public class OrderController {
     public String orderHistory(Model model) {
         List<Order> orders = orderService.getAllOrders();
         model.addAttribute("orders", orders);
-        return "orders";
+        return "orders/orders";
     }
 
     @GetMapping("/search")
@@ -94,6 +92,6 @@ public class OrderController {
         List<Order> orders = orderService.searchOrders(keyword);
         model.addAttribute("orders", orders);
         model.addAttribute("searchKeyword", keyword);
-        return "orders";
+        return "orders/orders";
     }
 }

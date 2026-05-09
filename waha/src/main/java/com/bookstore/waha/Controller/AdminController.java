@@ -1,10 +1,10 @@
-package com.bookstore.waha.controller;
+package com.bookstore.waha.Controller;
 
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.Order;
-import com.bookstore.waha.service.AdminService;
-import com.bookstore.waha.service.BookService;
-import com.bookstore.waha.service.OrderService;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.Order;
+import com.bookstore.waha.Service.AdminService;
+import com.bookstore.waha.Service.BookService;
+import com.bookstore.waha.Service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +20,14 @@ import java.util.List;
 @Controller
 public class AdminController {
     private final AdminService adminservice;
-    private final BookService bookService;
-    private final OrderService orderService;
+    private final com.bookstore.waha.Service.BookService bookService;
+    private final com.bookstore.waha.Service.OrderService orderService;
     public AdminController(AdminService adminservice, BookService bookService, OrderService orderService){
         this.adminservice=adminservice;
         this.orderService=orderService;
         this.bookService=bookService;
     }
+
     @PostMapping("admin/books/add")
     public String insertBook(@Valid @ModelAttribute("book") Book book, BindingResult result, Model model, RedirectAttributes redirectAttributes){
        if(result.hasErrors()){
@@ -37,8 +38,9 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("message", "Book Added successfully!");
         return"redirect:/admin/managebooks";
     }
+
     @PostMapping("admin/books/delete")
-    public String removeBook(@RequestParam("bookID") Integer bookID, RedirectAttributes redirectAttributes) {
+    public String removeBook(@RequestParam("bookID") Long bookID, RedirectAttributes redirectAttributes) {
         try {
 
             Book book = adminservice.findBookByID(bookID);
@@ -57,7 +59,8 @@ public class AdminController {
 
         return "redirect:/admin/books/manage";
     }
-    @GetMapping("/admin/orders/manage")
+
+    @PostMapping("/admin/orders/delete")
     public String deleteOrder(@RequestParam(required = false) Long orderID, RedirectAttributes redirectAttributes) {
         try {
             if (orderID == null) {

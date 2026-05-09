@@ -1,14 +1,13 @@
-package com.bookstore.waha.model;
+package com.bookstore.waha.Model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "books")
 public class Book {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bookID")
     private Long bookID;
 

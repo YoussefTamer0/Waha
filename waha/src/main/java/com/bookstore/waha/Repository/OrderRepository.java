@@ -1,5 +1,5 @@
-package com.bookstore.waha.repository;
-import com.bookstore.waha.model.Order;
+package com.bookstore.waha.Repository;
+import com.bookstore.waha.Model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

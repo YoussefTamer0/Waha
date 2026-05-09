@@ -1,9 +1,9 @@
-package com.bookstore.waha.service;
+package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.Publisher;
-import com.bookstore.waha.repository.BookRepository;
-import com.bookstore.waha.repository.PublishersRepository;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.Publisher;
+import com.bookstore.waha.Repository.PublishersRepository;
+import com.bookstore.waha.Repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +17,17 @@ public class publishersService {
        this.bookrepo=bookrepo;
        this.publisherrepo=publisherrepo;
    }
-   public void addPublisher(Publisher publisher){
-       if(publisher.getPublisherID()!=null)
-       {
-           throw new RuntimeException("Publisher already exists.");
-       }
-       publisherrepo.save(publisher);
-   }
+    public void addPublisher(Publisher publisher) {
+
+        // Check if the publisher already exists in the database
+        if (publisher.getPublisherID() != null &&
+                publisherrepo.existsById(publisher.getPublisherID())) {
+
+            throw new RuntimeException("Publisher already exists.");
+        }
+
+        publisherrepo.save(publisher);
+    }
    public void removePublisher(Publisher publisher){
        if(publisher.getPublisherID()==null)
        {
