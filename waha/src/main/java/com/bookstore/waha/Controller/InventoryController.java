@@ -1,7 +1,7 @@
 package com.bookstore.waha.Controller;
 
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.Inventory;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.Inventory;
 import com.bookstore.waha.Service.BookService;
 import com.bookstore.waha.Service.InventoryService;
 import org.springframework.stereotype.Controller;

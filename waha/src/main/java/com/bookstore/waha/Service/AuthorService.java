@@ -1,8 +1,8 @@
-package com.bookstore.waha.service;
+package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Author;
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.repository.BookRepository;
+import com.bookstore.waha.Model.Author;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

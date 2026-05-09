@@ -1,6 +1,6 @@
-package com.bookstore.waha.repository;
+package com.bookstore.waha.Repository;
 
-import com.bookstore.waha.model.Customer;
+import com.bookstore.waha.Model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

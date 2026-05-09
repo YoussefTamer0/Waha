@@ -1,7 +1,7 @@
 package com.bookstore.waha.Controller;
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.CartItem;
-import com.bookstore.waha.repository.BookRepository;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.CartItem;
+import com.bookstore.waha.Repository.BookRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/Cart")
+@RequestMapping("/cart")
 public class CartController {
 
     private final BookRepository bookRepository;
@@ -34,10 +34,10 @@ public class CartController {
         }
 
 
-        Optional<Book> bookOptional = bookRepository.findById(bookID);
+        Optional<Book> bookOptional = bookRepository.findById(Long.valueOf(bookID));
         if (bookOptional.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Book not found");
-            return "redirect:/Cart/view";
+            return "redirect:/cart/view";
         }
 
         Book book = bookOptional.get();

@@ -1,7 +1,6 @@
-package com.bookstore.waha.model;
+package com.bookstore.waha.Model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -10,9 +9,8 @@ import jakarta.validation.constraints.NotNull;
 public class Customer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customerID")
-    @NotNull(message = "Customer ID is required")
     private long customerID;
 
     @Column(name = "firstName")

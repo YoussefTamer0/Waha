@@ -1,10 +1,10 @@
-package com.bookstore.waha.service;
+package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Admin;
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.repository.AdminRepository;
-import com.bookstore.waha.repository.BookRepository;
-import com.bookstore.waha.repository.OrderRepository;
+import com.bookstore.waha.Model.Admin;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Repository.AdminRepository;
+import com.bookstore.waha.Repository.OrderRepository;
+import com.bookstore.waha.Repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class AdminService {
         return adminrepo.findAll();
     }
 
-    public Admin findAdminByID(Integer ID) {
+    public Admin findAdminByID(Long ID) {
         if (ID == null) {
             throw new RuntimeException("ID cannot be null");
         }

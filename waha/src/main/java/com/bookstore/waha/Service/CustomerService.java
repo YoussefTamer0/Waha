@@ -1,7 +1,7 @@
-package com.bookstore.waha.service;
+package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Customer;
-import com.bookstore.waha.repository.CustomerRepository;
+import com.bookstore.waha.Model.Customer;
+import com.bookstore.waha.Repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,14 +15,32 @@ public class CustomerService {
     }
 
     public Customer register(Customer customer) {
-        customer.setEmail(customer.getEmail().trim().toLowerCase());
-        customer.setPassword(customer.getPassword().trim());
+        try {
 
-        if (repo.findByEmail(customer.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered: " + customer.getEmail());
+            // Remove extra spaces and make email lowercase
+            customer.setEmail(customer.getEmail().trim().toLowerCase());
+
+            // Remove extra spaces from password
+            customer.setPassword(customer.getPassword().trim());
+
+            // Check if email already exists
+            if (repo.findByEmail(customer.getEmail()).isPresent()) {
+                throw new RuntimeException(
+                        "Email already registered: " + customer.getEmail()
+                );
+            }
+
+            // Save customer in database
+            return repo.save(customer);
+
+        } catch (Exception e) {
+
+            // Print error in console
+            System.out.println("Error during registration: " + e.getMessage());
+
+            // Re-throw exception
+            throw new RuntimeException("Registration failed", e);
         }
-
-        return repo.save(customer);
     }
 
     public Customer login(String email, String password) {

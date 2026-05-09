@@ -1,8 +1,8 @@
 package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.Inventory;
-import com.bookstore.waha.repository.InventoryRepository;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.Inventory;
+import com.bookstore.waha.Repository.InventoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;

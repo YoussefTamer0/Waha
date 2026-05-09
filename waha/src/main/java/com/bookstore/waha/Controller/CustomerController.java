@@ -1,8 +1,8 @@
 package com.bookstore.waha.Controller;
 
-import com.bookstore.waha.model.Admin;
-import com.bookstore.waha.service.CustomerService;
-import com.bookstore.waha.model.Customer;
+import com.bookstore.waha.Model.Admin;
+import com.bookstore.waha.Service.CustomerService;
+import com.bookstore.waha.Model.Customer;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +14,9 @@ public class CustomerController {
 
 
         private final CustomerService customerService;
-        private final com.bookstore.waha.service.AdminService adminService;
+        private final com.bookstore.waha.Service.AdminService adminService;
 
-        public CustomerController(CustomerService customerService, com.bookstore.waha.service.AdminService adminService) {
+        public CustomerController(CustomerService customerService, com.bookstore.waha.Service.AdminService adminService) {
             this.customerService = customerService;
             this.adminService = adminService;
         }

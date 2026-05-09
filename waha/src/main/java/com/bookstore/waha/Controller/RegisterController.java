@@ -1,9 +1,7 @@
-package com.bookstore.waha.controller;
+package com.bookstore.waha.Controller;
 
 import com.bookstore.waha.Service.CustomerService;
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.Customer;
-import com.bookstore.waha.service.CustomerService;
+import com.bookstore.waha.Model.Customer;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +41,6 @@ public class RegisterController {
             return "customers/register";
         }
 
-        return "redirect:/login";
+        return "redirect:/customer/login";
     }
 }

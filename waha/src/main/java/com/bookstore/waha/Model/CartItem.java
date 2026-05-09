@@ -1,4 +1,4 @@
-package com.bookstore.waha.model;
+package com.bookstore.waha.Model;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

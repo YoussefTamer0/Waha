@@ -1,4 +1,4 @@
-package com.bookstore.waha.model;
+package com.bookstore.waha.Model;
 import jakarta.persistence.*;
 
 @Entity
@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 public class Author {
 @Id
-@GeneratedValue
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 @Column(name="AuthorID")
 private Long AuthorID;
 
