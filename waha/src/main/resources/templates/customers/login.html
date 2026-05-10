@@ -172,9 +172,9 @@
     <div class="box-content">
         <div class="form-section">
             <h3>Login your information</h3>
-            <form action="/login" method="post">
-                <label>Customer ID:</label>
-                <input type="text" name="customerID" required/>
+            <form action="/customer/login" method="post">
+                <label>Email:</label>
+                <input type="email" name="email" required/>
 
                 <label>Password:</label>
                 <input type="password" name="password" required/>
@@ -186,7 +186,10 @@
         </div>
 
         <div class="login-link">
-            have an account? <a href="register.html">Sign up here</a>
+            have an account? <a th:href="@{/customer/register}">Sign up here</a>
+        </div>
+        <div class="login-link">
+            <a th:href="@{/home}">← Back to Home</a>
         </div>
     </div>
 </div>
