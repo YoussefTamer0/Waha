@@ -32,7 +32,7 @@ public class AdminController {
 
     @GetMapping("/admin/managebooks")
     public String manageBooks(Model model) {
-        model.addAttribute("books", bookService.getAllBooks());
+
         model.addAttribute("book", new Book());
         return "admin/managebooks";
     }
