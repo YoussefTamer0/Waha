@@ -2,6 +2,118 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Confirmation</title>
+
+    <style>
+        /* ===== Reset ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== Body ===== */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ECE6D8;
+            color: #340B01;
+            padding: 30px;
+        }
+
+        /* ===== Titles ===== */
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #340B01;
+        }
+
+        /* ===== Container ===== */
+        .container {
+            background-color: #BED4C2;
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* ===== Form (same theme) ===== */
+        form {
+            background-color: #BED4C2;
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        /* ===== Labels ===== */
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* ===== Inputs ===== */
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #7B967A;
+            border-radius: 8px;
+            background-color: #ECE6D8;
+        }
+
+        /* ===== Button ===== */
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background-color: #6B4028;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #340B01;
+        }
+
+        /* ===== Cart Table (clean same theme) ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: #ECE6D8;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Header */
+        th {
+            background-color: #6B4028;
+            color: white;
+            padding: 12px;
+        }
+
+        /* Cells */
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #7B967A;
+        }
+
+        /* Row hover (soft only) */
+        tr:hover {
+            background-color: #BED4C2;
+        }
+
+        /* ===== Paragraph ===== */
+        p {
+            margin: 10px 0;
+        }
+    </style>
     <title>Order Confirmation</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
