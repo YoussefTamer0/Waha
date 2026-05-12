@@ -19,7 +19,7 @@ public class RegisterController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/register")
+    @GetMapping("/customer/register")
     public String showForm(Model model) {
         model.addAttribute("customer", new Customer());
         return "customers/register";
