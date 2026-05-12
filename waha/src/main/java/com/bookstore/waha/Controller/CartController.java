@@ -1,4 +1,4 @@
-package com.bookstore.waha.controller;
+package com.bookstore.waha.Controller;
 import com.bookstore.waha.model.Book;
 import com.bookstore.waha.model.CartItem;
 import com.bookstore.waha.repository.BookRepository;
@@ -34,7 +34,7 @@ public class CartController {
         }
 
 
-        Optional<Book> bookOptional = bookRepository.findById(bookID);
+        Optional<Book> bookOptional = bookRepository.findById(Long.valueOf(bookID));
         if (bookOptional.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Book not found");
             return "redirect:/Cart/view";
