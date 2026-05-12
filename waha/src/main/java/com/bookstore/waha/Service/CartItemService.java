@@ -1,5 +1,5 @@
-package com.bookstore.waha.service;
-import com.bookstore.waha.model.CartItem;
+package com.bookstore.waha.Service;
+import com.bookstore.waha.Model.CartItem;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class CartItemService {
         cart.add(newItem);
     }
 
-    public void removeItem(List<CartItem> cart, Integer bookID) {
+    public void removeItem(List<CartItem> cart, Long bookID) {
         cart.removeIf(item -> item.getBook().getBookID().equals(bookID));
     }
 

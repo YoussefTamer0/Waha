@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Manage Orders | Bookstore Admin</title>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: #ECE6D8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #340B01;
+    }
+
+
+    .app-container { display: flex; min-height: 100vh; }
+
+
+    .sidebar {
+      width: 260px;
+      background-color: #340B01;
+      color: #ECE6D8;
+      padding: 30px 20px;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .sidebar h2 {
+      color: #BED4C2;
+      font-size: 20px;
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #6B4028;
+    }
+    .sidebar nav ul { list-style: none; }
+    .sidebar nav ul li { margin-bottom: 15px; }
+    .sidebar nav ul li a {
+      color: #ECE6D8;
+      text-decoration: none;
+      display: block;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .sidebar nav ul li a:hover { background-color: #6B4028; color: white; }
+    .sidebar nav ul li a.active {
+      background-color: #7B967A;
+      color: #340B01;
+      font-weight: bold;
+    }
+
+
+    .main-content { margin-left: 260px; flex: 1; padding: 40px 30px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    h1 {
+      color: #340B01;
+      border-left: 5px solid #7B967A;
+      padding-left: 20px;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+
+    .message {
+      background-color: #7B967A;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .message-error {
+      background-color: #340B01;
+      color: #ECE6D8;
+      padding: 12px 20px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px 24px;
+      border: 1px solid #BED4C2;
+      box-shadow: 0 2px 8px rgba(52,11,1,.07);
+    }
+    .stat-card .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #6B4028;
+      margin-bottom: 6px;
+    }
+    .stat-card .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #340B01;
+    }
+    .stat-card .stat-value.green { color: #3a7d44; }
+
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(52,11,1,.1);
+      border: 1px solid #BED4C2;
+    }
+    .card h2 {
+      color: #6B4028;
+      border-bottom: 2px solid #BED4C2;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+    .filter-bar input,
+    .filter-bar select {
+      padding: 9px 13px;
+      border: 1px solid #BED4C2;
+      border-radius: 6px;
+      font-size: 14px;
+      background-color: #ECE6D8;
+      color: #340B01;
+      flex: 1;
+      min-width: 160px;
+    }
+    .filter-bar input:focus,
+    .filter-bar select:focus {
+      outline: none;
+      border-color: #7B967A;
+      background: white;
+    }
+    .filter-bar button {
+      padding: 9px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #7B967A;
+      color: white;
+      transition: background .2s;
+    }
+    .filter-bar button:hover { background: #6B4028; }
+    .filter-bar a.btn-clear {
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      background: transparent;
+      border: 1px solid #6B4028;
+      color: #6B4028;
+      transition: background .2s;
+    }
+    .filter-bar a.btn-clear:hover { background: #ECE6D8; }
+
+    /* ── ORDERS TABLE ── */
+    .table-wrapper { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead tr {
+      background-color: #340B01;
+      color: #ECE6D8;
+    }
+    thead th {
+      padding: 13px 16px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: .05em;
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid #e8e0d4; transition: background .15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background-color: #f5f0e8; }
+    tbody td { padding: 13px 16px; vertical-align: middle; }
+
+    .empty-row td {
+      text-align: center;
+      color: #6B4028;
+      padding: 40px;
+      font-style: italic;
+    }
+
+
+    .price { font-weight: 700; color: #3a7d44; }
+
+    /* ── ACTION BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+    .btn-view   { background: #BED4C2; color: #340B01; }
+    .btn-view:hover   { background: #7B967A; color: white; }
+    .btn-delete { background: transparent; color: #9b1c1c; border: 1px solid #9b1c1c; }
+    .btn-delete:hover { background: #fdf0f0; }
+
+
+    .items-row { display: none; background: #f9f6ef; }
+    .items-row.open { display: table-row; }
+    .items-inner {
+      padding: 16px 24px;
+    }
+    .items-inner table {
+      font-size: 13px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #BED4C2;
+    }
+    .items-inner thead tr { background: #6B4028; }
+    .items-inner thead th { padding: 9px 14px; }
+    .items-inner tbody td { padding: 9px 14px; border-bottom: 1px solid #ece6d8; }
+    .items-inner tbody tr:last-child td { border-bottom: none; }
+
+    .delete-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .delete-group input {
+      flex: 1;
+      min-width: 160px;
+      padding: 10px 12px;
+      border: 1px solid #BED4C2;
+      border-radius: 6px;
+      background-color: #ECE6D8;
+      font-size: 14px;
+    }
+    .btn-submit {
+      background-color: #7B967A;
+      color: white;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-submit:hover { background-color: #6B4028; }
+    .btn-danger-solid {
+      background-color: #340B01;
+      color: #ECE6D8;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-danger-solid:hover { background-color: #6B4028; }
+
+    .helper-text {
+      font-size: 12px;
+      color: #6B4028;
+      margin-top: 8px;
+    }
+
+
+    @media (max-width: 768px) {
+      .sidebar      { width: 200px; }
+      .main-content { margin-left: 200px; }
+    }
+    @media (max-width: 600px) {
+      .sidebar      { position: relative; width: 100%; height: auto; }
+      .main-content { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+
+
+  <aside class="sidebar">
+    <h2>📚 Bookstore Admin</h2>
+    <nav>
+      <ul>
+        <li><a th:href="@{/admin/dashboard}">📊 Dashboard</a></li>
+        <li><a th:href="@{/admin/books/manage}">📖 Manage Books</a></li>
+        <li><a th:href="@{/admin/orders/manage}" class="active">📦 Manage Orders</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+
+  <main class="main-content">
+    <div class="container">
+
+      <h1>📦 Manage Orders</h1>
+
+      <!-- Flash messages -->
+      <div class="message"       th:if="${message}" th:text="${message}"></div>
+      <div class="message-error" th:if="${error}"   th:text="${error}"></div>
+
+
+      <div class="stats-strip">
+        <div class="stat-card">
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-value" th:text="${#lists.size(orders)}">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Revenue</div>
+          <div class="stat-value green"
+               th:text="'$' + ${#numbers.formatDecimal(orders.stream().mapToDouble(o -> o.totalPrice ?: 0).sum(), 1, 2)}">
+            $0.00
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg. Order Value</div>
+          <div class="stat-value"
+               th:text="${#lists.size(orders) > 0}
+                                   ? '$' + ${#numbers.formatDecimal(orders.stream().mapToDouble(o -> o.totalPrice ?: 0).average().orElse(0), 1, 2)}
+                                   : '$0.00'">
+            $0.00
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ALL ORDERS TABLE ── -->
+      <div class="card">
+        <h2>📋 All Orders</h2>
+
+        <!-- Filter / search bar -->
+        <form th:action="@{/admin/orders/manage}" method="get">
+          <div class="filter-bar">
+            <input
+                    type="text"
+                    name="keyword"
+                    placeholder="Search by customer name or address…"
+                    th:value="${keyword}"
+            />
+            <button type="submit">🔍 Search</button>
+            <a class="btn-clear" th:href="@{/admin/orders/manage}">✕ Clear</a>
+          </div>
+        </form>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer Name</th>
+              <th>Delivery Address</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+            <th:block th:each="order, stat : ${orders}">
+
+
+              <tr>
+                <td><strong th:text="'#' + ${order.id}">—</strong></td>
+                <td th:text="${order.customerName} ?: '—'">—</td>
+                <td th:text="${order.address} ?: '—'">—</td>
+                <td>
+
+                  <button
+                          class="btn btn-view"
+                          type="button"
+                          th:if="${order.items != null and not #lists.isEmpty(order.items)}"
+                          th:onclick="'toggleItems(' + ${stat.index} + ')'"
+                          th:id="'toggle-' + ${stat.index}">
+                    👁 View (<span th:text="${#lists.size(order.items)}">0</span>)
+                  </button>
+                  <span th:unless="${order.items != null and not #lists.isEmpty(order.items)}"
+                        style="color:#6B4028; font-style:italic;">No items</span>
+                </td>
+                <td class="price"
+                    th:text="'$' + ${#numbers.formatDecimal(order.totalPrice ?: 0, 1, 2)}">
+                  $0.00
+                </td>
+                <td>
+                  <form th:action="@{/admin/orders/delete}" method="post"
+                        style="display:inline">
+                    <input type="hidden" name="orderID" th:value="${order.id}" />
+                    <button
+                            class="btn btn-delete"
+                            type="submit"
+                            onclick="return confirm('Delete order #' + this.form.orderID.value + '? This cannot be undone.')">
+                      🗑 Delete
+                    </button>
+                  </form>
+                </td>
+              </tr>
+
+              <!-- Expandable items sub-row -->
+              <tr class="items-row" th:id="'items-row-' + ${stat.index}"
+                  th:if="${order.items != null and not #lists.isEmpty(order.items)}">
+                <td colspan="6">
+                  <div class="items-inner">
+                    <table>
+                      <thead>
+                      <tr>
+                        <th>Item ID</th>
+                        <th>Book Title</th>
+                        <th>ISBN</th>
+                        <th>Qty</th>
+                        <th>Unit Price</th>
+                        <th>Subtotal</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="item : ${order.items}">
+                        <td th:text="${item.id}">—</td>
+                        <td th:text="${item.book?.title} ?: '—'">—</td>
+                        <td th:text="${item.book?.isbn}  ?: '—'">—</td>
+                        <td th:text="${item.quantity}">0</td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}">$0.00</td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(item.price * item.quantity, 1, 2)}">$0.00</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+
+            </th:block>
+
+            <!-- Empty state -->
+            <tr class="empty-row" th:if="${#lists.isEmpty(orders)}">
+              <td colspan="6">📭 No orders found.</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── DELETE ORDER BY ID ── -->
+      <div class="card">
+        <h2>🗑️ Delete Order by ID</h2>
+        <form th:action="@{/admin/orders/delete}" method="post">
+          <div class="delete-group">
+            <label style="font-weight:600; color:#6B4028; white-space:nowrap;">Order ID:</label>
+            <input type="number" name="orderID" placeholder="Enter order ID…" min="1" required />
+            <button type="submit" class="btn-danger-solid"
+                    onclick="return confirm('Are you sure you want to delete this order?')">
+              Delete
+            </button>
+          </div>
+          <p class="helper-text">⚠️ Warning: Deleting an order also removes all its items. This action cannot be undone.</p>
+        </form>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  function toggleItems(index) {
+    const row    = document.getElementById('items-row-' + index);
+    const button = document.getElementById('toggle-' + index);
+    if (!row) return;
+
+    const isOpen = row.classList.toggle('open');
+    if (button) {
+      button.textContent = isOpen
+              ? button.textContent.replace('👁 View', '🔼 Hide')
+              : button.textContent.replace('🔼 Hide', '👁 View');
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,9 +1,11 @@
-package com.bookstore.waha.service;
+package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Author;
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.Publisher;
-import com.bookstore.waha.repository.BookRepository;
+import com.bookstore.waha.Model.Author;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.Publisher;
+import com.bookstore.waha.Repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,14 +45,12 @@ public class BookService {
                 .orElseThrow(() -> new RuntimeException("Book not found with ID: " + id));
     }
 
-    public List<Book> searchByTitle(String keyword) {
-        if (keyword == null || keyword.isBlank()) {
-            return getAllBooks();
+    public Page<Book> searchBooks(String searchQuery, Pageable pageable) {
+        if (searchQuery == null || searchQuery.isBlank()) {
+            return bookRepository.findAll(pageable);
         }
-        return bookRepository.findAll().stream()
-                .filter(b -> b.getTitle() != null &&
-                        b.getTitle().toLowerCase().contains(keyword.toLowerCase()))
-                .toList();
+
+        return bookRepository.findByTitleContainingIgnoreCase(searchQuery, pageable);
     }
 
     public List<Book> filterByGenre(String genre) {

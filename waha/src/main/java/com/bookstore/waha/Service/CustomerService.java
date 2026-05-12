@@ -1,13 +1,14 @@
-package com.bookstore.waha.service;
+package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Customer;
-import com.bookstore.waha.repository.CustomerRepository;
+import com.bookstore.waha.Model.Customer;
+import com.bookstore.waha.Repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class CustomerService {
+
     private final CustomerRepository repo;
 
     public CustomerService(CustomerRepository repo) {
@@ -15,11 +16,12 @@ public class CustomerService {
     }
 
     public Customer register(Customer customer) {
+
         customer.setEmail(customer.getEmail().trim().toLowerCase());
         customer.setPassword(customer.getPassword().trim());
 
         if (repo.findByEmail(customer.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered: " + customer.getEmail());
+            return null;
         }
 
         return repo.save(customer);
@@ -42,6 +44,7 @@ public class CustomerService {
     }
 
     public Customer update(Customer customer) {
+
         if (customer.getCustomerID() == null) {
             throw new RuntimeException("Customer ID cannot be null for update");
         }
@@ -53,4 +56,3 @@ public class CustomerService {
         return repo.save(customer);
     }
 }
-

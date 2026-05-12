@@ -1,9 +1,7 @@
-package com.bookstore.waha.controller;
+package com.bookstore.waha.Controller;
 
 import com.bookstore.waha.Service.CustomerService;
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.Customer;
-import com.bookstore.waha.service.CustomerService;
+import com.bookstore.waha.Model.Customer;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +19,7 @@ public class RegisterController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/register")
+    @GetMapping("/customer/register")
     public String showForm(Model model) {
         model.addAttribute("customer", new Customer());
         return "customers/register";
@@ -31,8 +29,9 @@ public class RegisterController {
     public String addCustomer(@Valid @ModelAttribute("customer") Customer customer,
                               BindingResult result,
                               Model model) {
+
+
         if (result.hasErrors()) {
-            model.addAttribute("message", "Cannot register. Please check your input.");
             return "customers/register";
         }
 
@@ -43,6 +42,6 @@ public class RegisterController {
             return "customers/register";
         }
 
-        return "redirect:/login";
+        return "redirect:/customer/login";
     }
 }

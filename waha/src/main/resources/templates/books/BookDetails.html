@@ -201,7 +201,7 @@
     <nav>
       <a th:href="@{/books}">Catalogue</a>
       <a th:href="@{/books/search}">Search</a>
-      <a th:href="@{/customer/login}">Account</a>
+      <a th:href="@{/customer/profile}">Account</a>
       <a class="cart-link" th:href="@{/cart}">🛒 Cart</a>
     </nav>
   </div>
@@ -290,7 +290,7 @@
 
 
     <div class="actions">
-      <form th:action="@{/cart/add}" method="post" style="display:inline">
+      <form th:action="@{/cart/Add}" method="post" style="display:inline">
         <input type="hidden" name="bookID" th:value="*{bookID}" />
         <input type="hidden" name="quantity" value="1" />
         <button class="btn btn-primary" type="submit">Add to Cart</button>

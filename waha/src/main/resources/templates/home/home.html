@@ -923,17 +923,18 @@
 <!-- ══ HEADER ══ -->
 <header>
     <div class="header-inner">
-        <a class="logo" href="#">
+        <a class="logo" href="/home">
             <span class="logo-word">Novella</span>
             <span class="logo-tagline">A World of Stories</span>
         </a>
         <nav>
+            <a href="/books">Books</a>
+            <a href="/books/search">Search</a>
             <a href="#genres-section">Genres</a>
             <a href="#section-header">Feedback</a>
-            <a href="#">Our Story</a>
         </nav>
         <div class="header-actions">
-            <button class="icon-btn" title="Search">
+            <a href="/books/search" class="icon-btn" title="Search">
                 <svg
                         width="17"
                         height="17"
@@ -943,10 +944,10 @@
                         stroke-width="1.5"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                >
+
                     <circle cx="11" cy="11" r="8" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
+                </svg> </a>
             </button>
             <button class="icon-btn" title="Wishlist">
                 <svg
@@ -964,7 +965,7 @@
                     />
                 </svg>
             </button>
-            <button class="icon-btn" title="Cart" style="position: relative">
+            <a href="/cart/view" class="icon-btn" title="Cart" style="position: relative">
                 <svg
                         width="17"
                         height="17"
@@ -997,8 +998,8 @@
               "
                 >3</span
                 >
-            </button>
-            <a href="#" class="btn-primary">Sign In</a>
+            </a>
+            <a href="/customer/login" class="btn-primary">Sign In</a>
         </div>
     </div>
 </header>
@@ -1014,8 +1015,8 @@
                 timeless classics — discover your next obsession at Novella.
             </p>
             <div class="hero-cta">
-                <a href="#" class="btn-primary">Shop New Arrivals</a>
-                <a href="#" class="btn-outline">Browse Genres</a>
+                <a href="/books" class="btn-primary">Shop New Arrivals</a>
+                <a href="/books/search" class="btn-outline">Browse Genres</a>
             </div>
         </div>
         <div class="hero-visual">
@@ -1062,11 +1063,11 @@
             Dive into a new world this season. Use code NOVELLA20 at checkout.
             Valid on all fiction titles, while stocks last.
         </p>
-        <a href="#" class="btn-primary" style="margin-right: 12px"
+        <a href="/books" class="btn-primary" style="margin-right: 12px"
         >Shop the Sale</a
         >
         <a
-                href="#"
+                href="/books"
                 style="
             color: rgba(255, 255, 255, 0.5);
             font-size: 12px;
@@ -1086,51 +1087,51 @@
             </div>
         </div>
         <div class="genres-grid">
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Fiction" class="genre-pill"
             ><div class="genre-icon">📖</div>
                 <p class="genre-name">Fiction</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Mystery" class="genre-pill"
             ><div class="genre-icon">🔍</div>
                 <p class="genre-name">Mystery</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Sci-Fi" class="genre-pill"
             ><div class="genre-icon">🚀</div>
                 <p class="genre-name">Sci-Fi</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Romance" class="genre-pill"
             ><div class="genre-icon">❤️</div>
                 <p class="genre-name">Romance</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Fantasy" class="genre-pill"
             ><div class="genre-icon">🏰</div>
                 <p class="genre-name">Fantasy</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=History" class="genre-pill"
             ><div class="genre-icon">📜</div>
                 <p class="genre-name">History</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Nature" class="genre-pill"
             ><div class="genre-icon">🌱</div>
                 <p class="genre-name">Nature</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Self-Help" class="genre-pill"
             ><div class="genre-icon">💡</div>
                 <p class="genre-name">Self-Help</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Children" class="genre-pill"
             ><div class="genre-icon">👶</div>
                 <p class="genre-name">Children</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Drama" class="genre-pill"
             ><div class="genre-icon">🎭</div>
                 <p class="genre-name">Drama</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Travel" class="genre-pill"
             ><div class="genre-icon">🌍</div>
                 <p class="genre-name">Travel</p></a
             >
-            <a href="#" class="genre-pill"
+            <a href="/books/search?genre=Art+%26+Design" class="genre-pill"
             ><div class="genre-icon">🎨</div>
                 <p class="genre-name">Art & Design</p></a
             >
@@ -1238,7 +1239,7 @@
 <footer>
     <div class="footer-top">
         <div class="footer-brand">
-            <a class="logo" href="#" style="display: inline-flex">
+            <a class="logo" href="/home" style="display: inline-flex">
                 <span class="logo-word">Novella</span>
                 <span class="logo-tagline">A World of Stories</span>
             </a>
@@ -1316,12 +1317,12 @@
         <div class="footer-col">
             <h4>Shop</h4>
             <ul>
-                <li><a href="#">New Arrivals</a></li>
-                <li><a href="#">Bestsellers</a></li>
-                <li><a href="#">Staff Picks</a></li>
-                <li><a href="#">Sale & Clearance</a></li>
-                <li><a href="#">Gift Cards</a></li>
-                <li><a href="#">First Editions</a></li>
+                <li><a href="/books">New Arrivals</a></li>
+                <li><a href="/books">Bestsellers</a></li>
+                <li><a href="/books">Staff Picks</a></li>
+                <li><a href="/books">Sale &amp; Clearance</a></li>
+                <li><a href="/books">Gift Cards</a></li>
+                <li><a href="/books">First Editions</a></li>
             </ul>
         </div>
     </div>

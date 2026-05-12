@@ -1,14 +1,13 @@
 package com.bookstore.waha.controller;
 
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.service.BookService;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collections;
@@ -19,6 +18,12 @@ public class ResultsController {
 
     public ResultsController(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @GetMapping("/books")
+    public String bookList(Model model) {
+        model.addAttribute("books", bookService.getAllBooks());
+        return "/books/BookList";
     }
 
     @GetMapping("/books/search")
@@ -48,8 +53,8 @@ public class ResultsController {
     }
     @GetMapping("/books/{id}")
     public String getBookDetails(@PathVariable Long id, Model model) {
-        Book book = bookService.findById(id);
+        Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
-        return "/books/book-details";
+        return "/books/BookDetails";
     }
 }

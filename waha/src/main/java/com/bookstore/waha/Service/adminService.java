@@ -1,9 +1,10 @@
-package com.bookstore.waha.service;
+package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Admin;
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.repository.AdminRepository;
-import com.bookstore.waha.repository.BookRepository;
+import com.bookstore.waha.Model.Admin;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Repository.AdminRepository;
+import com.bookstore.waha.Repository.OrderRepository;
+import com.bookstore.waha.Repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +13,12 @@ import java.util.Optional;
 public class AdminService {
     private final AdminRepository adminrepo;
     private final BookRepository bookrepo;
+    private final OrderRepository orderrepo;
 
-    public AdminService(AdminRepository adminrepo, BookRepository bookrepo) {
+    public AdminService(AdminRepository adminrepo, BookRepository bookrepo, OrderRepository orderrepo) {
         this.adminrepo = adminrepo;
         this.bookrepo=bookrepo;
+        this.orderrepo=orderrepo;
 
     }
 
@@ -39,7 +42,7 @@ public class AdminService {
         return adminrepo.findAll();
     }
 
-    public Admin findAdminByID(Integer ID) {
+    public Admin findAdminByID(Long ID) {
         if (ID == null) {
             throw new RuntimeException("ID cannot be null");
         }
@@ -77,5 +80,22 @@ public class AdminService {
             return admin;
         }
         return null;
+    }
+    public void clearOrder(Long ID) {
+
+        if (ID == null) {
+            throw new IllegalArgumentException("Order ID cannot be null");
+        }
+
+
+        if (!orderrepo.existsById(ID)) {
+            throw new RuntimeException("Order not found with ID: " + ID);
+        }
+
+        try {
+            orderrepo.deleteById(ID);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete order with ID: " + ID + " - " + e.getMessage(), e);
+        }
     }
 }

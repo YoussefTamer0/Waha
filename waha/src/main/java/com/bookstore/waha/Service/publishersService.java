@@ -1,9 +1,9 @@
-package com.bookstore.waha.service;
+package com.bookstore.waha.Service;
 
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.Publisher;
-import com.bookstore.waha.repository.BookRepository;
-import com.bookstore.waha.repository.PublishersRepository;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.Publisher;
+import com.bookstore.waha.Repository.PublishersRepository;
+import com.bookstore.waha.Repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +17,17 @@ public class publishersService {
        this.bookrepo=bookrepo;
        this.publisherrepo=publisherrepo;
    }
-   public void addPublisher(Publisher publisher){
-       if(publisher.getPublisherID()!=null)
-       {
-           throw new RuntimeException("Publisher already exists.");
-       }
-       publisherrepo.save(publisher);
-   }
+    public void addPublisher(Publisher publisher) {
+
+
+        if (publisher.getPublisherID() != null &&
+                publisherrepo.existsById(publisher.getPublisherID())) {
+
+            throw new RuntimeException("Publisher already exists.");
+        }
+
+        publisherrepo.save(publisher);
+    }
    public void removePublisher(Publisher publisher){
        if(publisher.getPublisherID()==null)
        {
@@ -35,12 +39,12 @@ public class publishersService {
        List<Publisher> publishers= publisherrepo.findAll();
        return publishers;
    }
-   public Publisher findPublisherbyID(long ID){
+   public Publisher findPublisherbyID(Long ID){
       Optional<Publisher> publisher= publisherrepo.findById(ID);
        return publisher.orElse(null);
    }
     @Transactional
-    public void addExistingBookToPublisher(long publisherID, long bookID) {
+    public void addExistingBookToPublisher(Long publisherID, Long bookID) {
         Publisher publisher = publisherrepo.findById(publisherID)
                 .orElseThrow(() -> new RuntimeException("Publisher not found with ID: " + publisherID));
 
