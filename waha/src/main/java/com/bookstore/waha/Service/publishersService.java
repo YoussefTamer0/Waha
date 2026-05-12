@@ -19,7 +19,7 @@ public class publishersService {
    }
     public void addPublisher(Publisher publisher) {
 
-        // Check if the publisher already exists in the database
+
         if (publisher.getPublisherID() != null &&
                 publisherrepo.existsById(publisher.getPublisherID())) {
 

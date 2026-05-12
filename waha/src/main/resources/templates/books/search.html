@@ -154,5 +154,28 @@
     </tr>
     </tbody>
 </table>
+
+<div th:if="${totalPages > 1}" style="text-align: center; margin: 20px auto; width: 800pt;">
+    <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+
+        <a th:if="${currentPage > 0}"
+           th:href="@{/books/search(query=${query}, page=${currentPage - 1}, size=10)}"
+           style="padding: 8px 15px; background: #6B4028; color: white; text-decoration: none; border-radius: 5px; font-family: Georgia, 'Times New Roman', Times, serif;">
+            ◀ Previous
+        </a>
+
+
+        <span style="color: #6B4028; font-family: Georgia, 'Times New Roman', Times, serif;">
+            Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span>
+        </span>
+
+
+        <a th:if="${currentPage + 1 < totalPages}"
+           th:href="@{/books/search(query=${query}, page=${currentPage + 1}, size=10)}"
+           style="padding: 8px 15px; background: #6B4028; color: white; text-decoration: none; border-radius: 5px; font-family: Georgia, 'Times New Roman', Times, serif;">
+            Next ▶
+        </a>
+    </div>
+</div>
 </body>
 </html>
