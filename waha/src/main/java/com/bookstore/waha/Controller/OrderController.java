@@ -23,11 +23,6 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping({"", "/"})
-    public String ordersRoot() {
-        return "redirect:/orders/history";
-    }
-
     @GetMapping("/Checkout")
     public String checkoutPage(Model model) {
         model.addAttribute("order", new Order());

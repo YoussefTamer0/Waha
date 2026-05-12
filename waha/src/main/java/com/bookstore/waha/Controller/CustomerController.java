@@ -28,6 +28,7 @@ public class CustomerController {
 
         @PostMapping("/login")
         public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
+            // Check admin FIRST so admin accounts always go to the dashboard
             try {
                 Admin admin = this.adminService.login(email, password);
                 if (admin != null) {

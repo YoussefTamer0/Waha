@@ -2,6 +2,7 @@ package com.bookstore.waha.Service;
 
 import com.bookstore.waha.Model.Author;
 import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Repository.AuthorRepository;
 import com.bookstore.waha.Repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +15,10 @@ import java.util.Optional;
 public class AuthorService {
 
     private final BookRepository bookRepository;
-
-    public AuthorService(BookRepository bookRepository) {
+    private final AuthorRepository authorRepository;
+    public AuthorService(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
 
@@ -59,10 +61,12 @@ public class AuthorService {
 
 
     public List<Book> getBooksByAuthor(Long authorId) {
+        // 1. Get the author using your existing method
         Author author = getAuthorById(authorId);
-        return bookRepository.findAll().stream()
-                .filter(b -> author.equals(b.getAuthor()))
-                .toList();
+
+        // 2. Just return the list already inside the Author object
+        // JPA will automatically fetch these from the database for you
+        return author.getBooks();
     }
 
 
@@ -75,8 +79,10 @@ public class AuthorService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new RuntimeException("Book not found with ID: " + bookId));
 
-        book.setAuthor(author);
-        author.setBook(book);
+        // This one line replaces book.setAuthor and author.setBook
+        // It keeps both sides of the relationship in sync in memory
+        author.addBook(book);
+
         return bookRepository.save(book);
     }
 
