@@ -1,7 +1,9 @@
 package com.bookstore.waha.Controller;
 
 import com.bookstore.waha.Model.CartItem;
+import com.bookstore.waha.Model.Customer;
 import com.bookstore.waha.Model.Order;
+import com.bookstore.waha.Repository.OrderRepository;
 import com.bookstore.waha.Service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -81,5 +83,26 @@ public class OrderController {
         model.addAttribute("orders", orderService.searchOrders(keyword));
         model.addAttribute("searchKeyword", keyword);
         return "orders/orders";
+
     }
+    @GetMapping("/history")
+    public String orderHistory(Model model, HttpSession session) {
+
+        Customer loggedCustomer = (Customer) session.getAttribute("loggedCustomer");
+
+
+        if (loggedCustomer == null) {
+            return "redirect:/customer/login";
+        }
+
+
+        List<Order> customerOrders = orderService.getOrdersByCustomer(loggedCustomer);
+        model.addAttribute("orders", customerOrders);
+
+        return "orders/orders";
+    }
+
+
+
+
 }

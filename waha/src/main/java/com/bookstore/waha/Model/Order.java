@@ -43,10 +43,13 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     public Order() {}
 
-    public Order(Long id, String customerName, String address, Double totalPrice,
-                 String status, LocalDateTime orderDate, List<OrderItem> items) {
+    public Order(Long id, String customerName, String address, Double totalPrice, String status, LocalDateTime orderDate, List<OrderItem> items, Customer customer) {
         this.id = id;
         this.customerName = customerName;
         this.address = address;
@@ -54,6 +57,15 @@ public class Order {
         this.status = status;
         this.orderDate = orderDate;
         this.items = items;
+        this.customer = customer;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Long getId() { return id; }

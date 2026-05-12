@@ -1,17 +1,15 @@
 package com.bookstore.waha.Service;
-
 import com.bookstore.waha.Model.CartItem;
+import com.bookstore.waha.Model.Customer;
 import com.bookstore.waha.Model.Order;
 import com.bookstore.waha.Model.OrderItem;
 import com.bookstore.waha.Repository.OrderRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-
 public class OrderService {
     private final OrderRepository orderRepository;
 
@@ -20,7 +18,10 @@ public class OrderService {
     }
 
     public Order placeOrder(Order order, HttpSession session) {
-
+        Customer customer = (Customer) session.getAttribute("loggedCustomer");
+        if (customer == null) {
+            throw new RuntimeException("You must be logged in to place an order");
+        }
 
         List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cartItems");
 
@@ -53,6 +54,8 @@ public class OrderService {
         order.setItems(orderItems);
 
         order.setTotalPrice(total);
+
+        order.setCustomer(customer);
 
 
         Order savedOrder = orderRepository.save(order);
@@ -95,6 +98,10 @@ public class OrderService {
                         (order.getAddress() != null &&
                                 order.getAddress().toLowerCase().contains(keyword.toLowerCase())))
                 .toList();
+    }
+
+    public List<Order> getOrdersByCustomer(Customer customer) {
+        return orderRepository. findByCustomerOrderByOrderDateDesc(customer);
     }
 
 }
