@@ -28,22 +28,23 @@ public class CustomerController {
 
         @PostMapping("/login")
         public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
-            try {
-                Customer customer = this.customerService.login(email, password);
-                if (customer != null) {
-                    session.setAttribute("loggedCustomer", customer);
-                    session.setAttribute("userType", "CUSTOMER");
-                    return "redirect:/customer/profile";
-                }
-            } catch (RuntimeException e) {
-            }
-
+            // Check admin FIRST so admin accounts always go to the dashboard
             try {
                 Admin admin = this.adminService.login(email, password);
                 if (admin != null) {
                     session.setAttribute("loggedAdmin", admin);
                     session.setAttribute("userType", "ADMIN");
                     return "redirect:/admin/dashboard";
+                }
+            } catch (RuntimeException e) {
+            }
+
+            try {
+                Customer customer = this.customerService.login(email, password);
+                if (customer != null) {
+                    session.setAttribute("loggedCustomer", customer);
+                    session.setAttribute("userType", "CUSTOMER");
+                    return "redirect:/customer/profile";
                 }
             } catch (RuntimeException e) {
             }

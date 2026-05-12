@@ -434,8 +434,11 @@
                     </td>
                     <td>$<span th:text="${#numbers.formatDecimal(item.book.price * item.quantity, 1, 2)}"></span></td>
                     <td>
-                        <a th:href="@{/cart/remove(bookId=${item.book.bookID})}" class="btn-danger"
-                           onclick="return confirm('Remove this item from cart?')">Remove</a>
+                        <form th:action="@{/cart/remove}" method="post" style="display:inline;"
+                              onsubmit="return confirm('Remove this item from cart?')">
+                            <input type="hidden" name="bookId" th:value="${item.book.bookID}">
+                            <button type="submit" class="btn-danger">Remove</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
@@ -458,7 +461,10 @@
         </div>
 
         <div class="cart-actions">
-            <a th:href="@{/cart/clear}" class="btn-secondary" onclick="return confirm('Clear entire cart?')">Clear Cart</a>
+            <form th:action="@{/cart/Clear}" method="post" style="display:inline;"
+                  onsubmit="return confirm('Clear entire cart?')">
+                <button type="submit" class="btn-secondary">Clear Cart</button>
+            </form>
             <a th:href="@{/orders/Checkout}" class="btn-primary">Proceed to Checkout →</a>
         </div>
     </div>

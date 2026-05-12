@@ -13,6 +13,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotBlank(message = "Customer name is required")
@@ -22,33 +23,30 @@ public class Order {
 
     @NotBlank(message = "Address is required")
     @Size(min = 5, message = "Address must be at least 5 characters")
+    @Column(name = "address")
     private String address;
 
     @NotNull(message = "Total price is required")
     @Positive(message = "Total price must be positive")
+    @Column(name = "totalPrice")  // matches DB column
     private Double totalPrice;
 
-    // Order status (Pending, Shipped, Delivered, etc.)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private String status = "Pending";
 
-    // Automatically stores the date and time when the order is created
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(name = "orderDate", nullable = false, updatable = false)  // matches DB column
     private LocalDateTime orderDate;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    @NotEmpty(message = "Order must contain at least one item")
+    // FIX: removed @NotEmpty from the field — it causes validation failures when
+    // items are added after the Order is first persisted. Validate at the service layer instead.
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
 
-    public Order(Long id,
-                 String customerName,
-                 String address,
-                 Double totalPrice,
-                 String status,
-                 LocalDateTime orderDate,
-                 List<OrderItem> items) {
+    public Order() {}
 
+    public Order(Long id, String customerName, String address, Double totalPrice,
+                 String status, LocalDateTime orderDate, List<OrderItem> items) {
         this.id = id;
         this.customerName = customerName;
         this.address = address;
@@ -58,63 +56,24 @@ public class Order {
         this.items = items;
     }
 
-    public Order() {
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getCustomerName() { return customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public String getCustomerName() {
-        return customerName;
-    }
+    public Double getTotalPrice() { return totalPrice; }
+    public void setTotalPrice(Double totalPrice) { this.totalPrice = totalPrice; }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getAddress() {
-        return address;
-    }
+    public LocalDateTime getOrderDate() { return orderDate; }
+    public void setOrderDate(LocalDateTime orderDate) { this.orderDate = orderDate; }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    @NotEmpty(message = "Order must contain at least one item")
-    public List<OrderItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
+    public List<OrderItem> getItems() { return items; }
+    public void setItems(List<OrderItem> items) { this.items = items; }
 }
