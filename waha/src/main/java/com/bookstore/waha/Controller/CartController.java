@@ -74,7 +74,7 @@ public class CartController {
         return "orders/cart";
     }
 
-    @GetMapping("/Clear")
+    @PostMapping("/Clear")
     public String clearCart(HttpSession session, RedirectAttributes redirectAttributes) {
         session.removeAttribute("cartItems");
         redirectAttributes.addFlashAttribute("success", "Cart cleared");
@@ -103,7 +103,7 @@ public class CartController {
         return "redirect:/cart/view";
     }
 
-    @GetMapping("/remove")
+    @PostMapping("/remove")
     public String removeFromCart(@RequestParam Long bookId,
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes) {
