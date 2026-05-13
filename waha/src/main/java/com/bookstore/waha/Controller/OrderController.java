@@ -72,8 +72,8 @@ public class OrderController {
         return "orders/Confirmation";
     }
 
-    @GetMapping("/history")
-    public String orderHistory(Model model) {
+    @GetMapping("/orders")
+    public String adminOrderHistory(Model model) {
         model.addAttribute("orders", orderService.getAllOrders());
         return "orders/orders";
     }
@@ -99,7 +99,7 @@ public class OrderController {
         List<Order> customerOrders = orderService.getOrdersByCustomer(loggedCustomer);
         model.addAttribute("orders", customerOrders);
 
-        return "orders/orders";
+        return "orders/history";
     }
 
 

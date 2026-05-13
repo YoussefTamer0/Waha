@@ -69,6 +69,38 @@
             font-weight: bold;
         }
 
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 2px solid #6B4028;
+        }
+        .admin-name {
+            font-size: 13px;
+            color: #BED4C2;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .admin-name span {
+            font-weight: 600;
+            color: #ECE6D8;
+        }
+        .btn-signout {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #6B4028;
+            color: #ECE6D8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+        .btn-signout:hover { background-color: #9b1c1c; color: white; }
+
 
         .main-content {
             margin-left: 260px;
@@ -228,10 +260,15 @@
         <nav>
             <ul>
                 <li><a th:href="@{/admin/dashboard}">📊 Dashboard</a></li>
-                <li><a th:href="@{/admin/books/manage}" class="active">📖 Manage Books</a></li>
-                <li><a th:href="@{/admin/orders/manage}">📦 Manage Orders</a></li>
+                <li><a th:href="@{/admin/managebooks}" class="active">📖 Manage Books</a></li>
+                <li><a th:href="@{/admin/manageorders}">📦 Manage Orders</a></li>
+                <li><a th:href="@{/inventory/manage}">🗂 Inventory</a></li>
             </ul>
         </nav>
+        <div class="sidebar-footer">
+            <div class="admin-name">👤 <span th:text="${session.loggedAdmin?.firstName} ?: 'Admin'">Admin</span></div>
+            <a class="btn-signout" th:href="@{/customer/logout}">🚪 Sign Out</a>
+        </div>
     </aside>
 
 
@@ -244,7 +281,7 @@
 
             <div class="card">
                 <h2>➕ Add New Book</h2>
-                <form action="#" th:action="@{/admin/books/add}" th:object="${book}" method="post">
+                <form th:action="@{/admin/books/add}" th:object="${book}" method="post">
                     <div class="form-group">
                         <label>Title:</label>
                         <input type="text" th:field="*{title}" required>

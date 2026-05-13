@@ -38,7 +38,7 @@ public class InventoryController {
         model.addAttribute("inventoryCount", inventoryService.getInventoryCount());
         model.addAttribute("inventory", new Inventory());
 
-        return "inventory/manage";
+        return "books/InventoryManagement";
     }
 
     @PostMapping("/create")
@@ -72,7 +72,7 @@ public class InventoryController {
             model.addAttribute("inventoryCount", inventoryService.getInventoryCount());
             model.addAttribute("inventory", new Inventory());
         }
-        return "inventory/manage";
+        return "books/InventoryManagement";
     }
 
     @PostMapping("/update")
@@ -139,7 +139,7 @@ public class InventoryController {
         model.addAttribute("lowStockWarning", true);
         model.addAttribute("inventory", new Inventory());
 
-        return "inventory/manage";
+        return "books/InventoryManagement";
     }
 
     @GetMapping("/search")
@@ -167,6 +167,6 @@ public class InventoryController {
         model.addAttribute("inventoryCount", inventoryService.getInventoryCount());
         model.addAttribute("inventory", new Inventory());
 
-        return "inventory/manage";
+        return "books/InventoryManagement";
     }
 }

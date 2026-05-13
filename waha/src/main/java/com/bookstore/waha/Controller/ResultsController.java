@@ -1,4 +1,4 @@
-package com.bookstore.waha.controller;
+package com.bookstore.waha.Controller;
 
 import com.bookstore.waha.Model.Book;
 import com.bookstore.waha.Service.BookService;

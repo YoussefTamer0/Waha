@@ -45,6 +45,37 @@
             color: #340B01;
             font-weight: bold;
         }
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 2px solid #6B4028;
+        }
+        .admin-name {
+            font-size: 13px;
+            color: #BED4C2;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .admin-name span {
+            font-weight: 600;
+            color: #ECE6D8;
+        }
+        .btn-signout {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #6B4028;
+            color: #ECE6D8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+        .btn-signout:hover { background-color: #9b1c1c; color: white; }
 
         .main-content {
             margin-left: 260px;
@@ -132,11 +163,16 @@
         <h2>📚 Bookstore Admin</h2>
         <nav>
             <ul>
-                <li><a href="/admin/dashboard" class="active">📊 Dashboard</a></li>
-                <li><a href="/admin/managebooks">📖 Manage Books</a></li>
-                <li><a href="/admin/ManageOrders">📦 Manage Orders</a></li>
+                <li><a th:href="@{/admin/dashboard}" class="active">📊 Dashboard</a></li>
+                <li><a th:href="@{/admin/managebooks}">📖 Manage Books</a></li>
+                <li><a th:href="@{/admin/manageorders}">📦 Manage Orders</a></li>
+                <li><a th:href="@{/inventory/manage}">🗂 Inventory</a></li>
             </ul>
         </nav>
+        <div class="sidebar-footer">
+            <div class="admin-name">👤 <span th:text="${session.loggedAdmin?.firstName} ?: 'Admin'">Admin</span></div>
+            <a class="btn-signout" th:href="@{/customer/logout}">🚪 Sign Out</a>
+        </div>
     </aside>
 
     <main class="main-content">
@@ -168,10 +204,16 @@
                 <p>Add, or remove books</p>
             </a>
 
-            <a href="/admin/ManageOrders" class="action-btn">
+            <a href="/admin/manageorders" class="action-btn">
                 <span>📦</span>
                 <h3>Manage Orders</h3>
                 <p>View and process orders</p>
+            </a>
+
+            <a href="/inventory/manage" class="action-btn">
+                <span>🗂</span>
+                <h3>Inventory</h3>
+                <p>Track and update stock levels</p>
             </a>
         </div>
     </main>

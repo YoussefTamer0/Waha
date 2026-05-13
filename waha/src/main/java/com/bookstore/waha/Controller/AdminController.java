@@ -1,7 +1,9 @@
 package com.bookstore.waha.Controller;
 
+import com.bookstore.waha.Model.Author;
 import com.bookstore.waha.Model.Book;
 import com.bookstore.waha.Model.Order;
+import com.bookstore.waha.Model.Publisher;
 import com.bookstore.waha.Service.AdminService;
 import com.bookstore.waha.Service.BookService;
 import com.bookstore.waha.Service.OrderService;
@@ -32,8 +34,10 @@ public class AdminController {
 
     @GetMapping("/admin/managebooks")
     public String manageBooks(Model model) {
-
-        model.addAttribute("book", new Book());
+        Book book = new Book();
+        book.setAuthor(new Author());
+        book.setPublisher(new Publisher());
+        model.addAttribute("book", book);
         return "admin/managebooks";
     }
 
@@ -43,6 +47,8 @@ public class AdminController {
                              Model model,
                              RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
+            book.setAuthor(book.getAuthor() != null ? book.getAuthor() : new Author());
+            book.setPublisher(book.getPublisher() != null ? book.getPublisher() : new Publisher());
             model.addAttribute("books", bookService.getAllBooks());
             model.addAttribute("message", "Error occurred.");
             return "admin/managebooks";
@@ -108,6 +114,7 @@ public class AdminController {
             orders = orderService.getAllOrders();
         }
         model.addAttribute("orders", orders);
+        model.addAttribute("totalRevenue", orderService.getTotalRevenue());
         return "admin/ManageOrders";
     }
 }

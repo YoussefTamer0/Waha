@@ -30,8 +30,7 @@ public class Author {
         this.lastName = lastName;
     }
 
-    // FIX: getter/setter names now consistently use "authorID"
-    public Long getAuthorId() { return authorID; }
+    public Long getAuthorID() { return authorID; }
     public void setAuthorID(Long authorID) { this.authorID = authorID; }
 
     public String getFirstName() { return firstName; }
