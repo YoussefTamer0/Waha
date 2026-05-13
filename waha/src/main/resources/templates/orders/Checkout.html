@@ -1,158 +1,309 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Checkout</title>
- <style>
-     /* ===== Reset ===== */
-     * {
-         margin: 0;
-         padding: 0;
-         box-sizing: border-box;
-     }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Novella</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-     /* ===== Body ===== */
-     body {
-         font-family: Arial, sans-serif;
-         background-color: #ECE6D8;
-         color: #340B01;
-         padding: 30px;
-     }
+        :root {
+            --cream: #caba9c;
+            --parchment: #f0e9dc;
+            --gold: #4c6444;
+            --gold-lt: #d48e0c;
+            --ink: #4d2d18;
+            --ink-mid: #4d2d18;
+            --border: #4d2d18;
+            --serif: "Cormorant Garamond", Georgia, serif;
+            --sans: "DM Sans", sans-serif;
+            --radius: 4px;
+        }
 
-     /* ===== Titles ===== */
-     h2, h3 {
-         text-align: center;
-         margin-bottom: 20px;
-         color: #340B01;
-     }
+        body {
+            font-family: var(--sans);
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 16px;
+        }
 
-     /* ===== Container ===== */
-     .container {
-         background-color: #BED4C2;
-         padding: 25px;
-         border-radius: 12px;
-         max-width: 600px;
-         margin: auto;
-         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-     }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--cream);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
+        }
 
-     /* ===== Form (same theme) ===== */
-     form {
-         background-color: #BED4C2;
-         padding: 25px;
-         border-radius: 12px;
-         max-width: 500px;
-         margin: 20px auto;
-     }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 72px;
+        }
 
-     /* ===== Labels ===== */
-     label {
-         display: block;
-         margin-top: 15px;
-         font-weight: bold;
-     }
+        .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+        .logo-word { font-family: var(--serif); font-size: 30px; font-weight: 300; letter-spacing: 0.12em; color: var(--ink); }
+        .logo-tagline { font-size: 9px; font-weight: bold; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-lt); margin-top: 2px; }
 
-     /* ===== Inputs ===== */
-     input {
-         width: 100%;
-         padding: 10px;
-         margin-top: 5px;
-         border: 1px solid #7B967A;
-         border-radius: 8px;
-         background-color: #ECE6D8;
-     }
+        nav { display: flex; gap: 36px; align-items: center; }
+        nav a { text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mid); transition: color 0.2s; }
+        nav a:hover { color: var(--gold); }
 
-     /* ===== Button ===== */
-     button {
-         margin-top: 20px;
-         width: 100%;
-         padding: 12px;
-         background-color: #6B4028;
-         color: white;
-         border: none;
-         border-radius: 8px;
-         font-size: 16px;
-         cursor: pointer;
-     }
+        .header-actions { display: flex; align-items: center; gap: 20px; }
 
-     button:hover {
-         background-color: #340B01;
-     }
+        .icon-btn { background: none; border: none; cursor: pointer; color: var(--ink-mid); font-size: 18px; display: flex; align-items: center; justify-content: center; transition: color 0.2s; text-decoration: none; }
+        .icon-btn:hover { color: var(--gold); }
 
-     /* ===== Cart Table (clean same theme) ===== */
-     table {
-         width: 100%;
-         border-collapse: collapse;
-         margin: 20px auto;
-         background-color: #ECE6D8;
-         border-radius: 10px;
-         overflow: hidden;
-     }
+        .btn-primary { background: var(--gold); color: #fff; border: none; padding: 10px 24px; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: var(--radius); transition: background 0.2s, transform 0.15s; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
 
-     /* Header */
-     th {
-         background-color: #6B4028;
-         color: white;
-         padding: 12px;
-     }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 5%; }
 
-     /* Cells */
-     td {
-         padding: 12px;
-         text-align: center;
-         border-bottom: 1px solid #7B967A;
-     }
+        .page-title { font-family: var(--serif); font-size: 36px; font-weight: 300; color: var(--ink); margin-bottom: 6px; }
+        .page-subtitle { font-size: 13px; color: var(--ink-mid); margin-bottom: 36px; letter-spacing: 0.04em; }
 
-     /* Row hover (soft only) */
-     tr:hover {
-         background-color: #BED4C2;
-     }
+        .checkout-grid { display: grid; grid-template-columns: 1fr 380px; gap: 30px; align-items: start; }
 
-     /* ===== Paragraph ===== */
-     p {
-         margin: 10px 0;
-     }
- </style>
+        .section-card { background: var(--parchment); border: 1px solid var(--border); border-radius: 8px; padding: 28px; margin-bottom: 24px; }
+        .section-title { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); letter-spacing: 0.04em; }
+
+        /* Payment Buttons */
+        .payment-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .payment-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--cream);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink);
+            text-align: left;
+            width: 100%;
+        }
+
+        .payment-btn:hover { border-color: var(--gold); background: rgba(76, 100, 68, 0.07); }
+
+        .payment-btn.selected {
+            border-color: var(--gold);
+            background: rgba(76, 100, 68, 0.12);
+            box-shadow: 0 0 0 3px rgba(76, 100, 68, 0.15);
+        }
+
+        .payment-icon { font-size: 22px; width: 32px; text-align: center; }
+
+        .payment-check {
+            margin-left: auto;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .payment-btn.selected .payment-check { background: var(--gold); border-color: var(--gold); color: white; }
+
+        /* Form */
+        .form-group { margin-bottom: 18px; }
+        .form-label { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--sans); font-size: 14px; background: var(--cream); color: var(--ink); transition: border-color 0.2s; }
+        .form-input:focus { outline: none; border-color: var(--gold); }
+
+        /* Order Summary */
+        .order-summary-card { background: var(--parchment); border: 1px solid var(--border); border-radius: 8px; padding: 28px; position: sticky; top: 90px; }
+        .summary-title { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+        .summary-items { margin-bottom: 16px; }
+        .summary-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; font-size: 13px; border-bottom: 1px dashed rgba(77,45,24,0.2); }
+        .summary-item:last-child { border-bottom: none; }
+        .summary-item-title { flex: 1; padding-right: 10px; line-height: 1.3; }
+        .summary-item-qty { font-size: 11px; color: var(--ink-mid); display: block; margin-top: 2px; }
+
+        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(77,45,24,0.15); font-size: 14px; }
+        .summary-row.total { border-top: 2px solid var(--gold); border-bottom: none; font-weight: bold; font-size: 18px; margin-top: 8px; padding-top: 14px; }
+
+        .confirm-btn {
+            background: var(--gold);
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            font-family: var(--sans);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: var(--radius);
+            transition: background 0.2s, transform 0.15s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .confirm-btn:hover:not(:disabled) { background: var(--gold-lt); transform: translateY(-1px); }
+        .confirm-btn:disabled { background: rgba(76, 100, 68, 0.35); cursor: not-allowed; }
+
+        .payment-note { font-size: 11px; color: var(--ink-mid); text-align: center; margin-top: 12px; letter-spacing: 0.03em; }
+
+        .footer-links { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
+        .footer-links a { color: var(--ink); text-decoration: none; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 12px; }
+        .footer-links a:hover { color: var(--gold); }
+
+        @media (max-width: 768px) {
+            .checkout-grid { grid-template-columns: 1fr; }
+            .order-summary-card { position: static; }
+            nav { display: none; }
+        }
+    </style>
 </head>
 <body>
 
-<nav style="padding: 10px 20px; background: #6B4028; display: flex; gap: 20px; align-items: center;">
-    <a th:href="@{/home}" style="color: #fff; text-decoration: none; font-weight: bold;">🏠 Home</a>
-    <a th:href="@{/books}" style="color: #fff; text-decoration: none;">Books</a>
-    <a th:href="@{/cart/view}" style="color: #fff; text-decoration: none;">🛒 Cart</a>
-    <a th:href="@{/customer/profile}" style="color: #fff; text-decoration: none; margin-left: auto;">My Profile</a>
-</nav>
+<header>
+    <div class="header-inner">
+        <a class="logo" th:href="@{/home}">
+            <span class="logo-word">Novella</span>
+            <span class="logo-tagline">A World of Stories</span>
+        </a>
+        <nav>
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/books}">Books</a>
+            <a th:href="@{/orders/history}">Orders</a>
+        </nav>
+        <div class="header-actions">
+            <a th:href="@{/cart/view}" class="icon-btn" title="Cart">🛒</a>
+            <a th:href="@{/customer/profile}" class="btn-primary">My Profile</a>
+        </div>
+    </div>
+</header>
 
-<h2>Checkout</h2>
-
-<h3>Your Cart Items</h3>
-
-<table border="1">
-    <tr>
-        <th>Book</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-
-    <tr th:each="item : ${cartItems}">
-        <td th:text="${item.book.title}"></td>
-        <td th:text="${item.quantity}"></td>
-        <td th:text="${item.book.price}"></td>
-    </tr>
-</table>
 <div class="container">
-    <form th:action="@{/orders/place}" th:object="${order}" method="post">
+    <h1 class="page-title">Checkout</h1>
+    <p class="page-subtitle">Complete your delivery details and choose a payment method</p>
 
-        <label>Name:</label>
-        <input type="text" th:field="*{customerName}" placeholder="Enter your name" required />
+    <div class="checkout-grid">
 
-        <label>Address:</label>
-        <input type="text" th:field="*{address}" placeholder="Enter your address" required />
+        <!-- LEFT COLUMN -->
+        <div>
+            <!-- Delivery Info -->
+            <div class="section-card">
+                <h2 class="section-title">Delivery Information</h2>
+                <form id="checkout-form" th:action="@{/orders/place}" th:object="${order}" method="post">
+                    <input type="hidden" name="paymentMethod" id="paymentMethodInput" value="" />
 
-        <button type="submit">Place Order</button>
+                    <div class="form-group">
+                        <label class="form-label" for="customerName">Full Name</label>
+                        <input class="form-input" type="text" id="customerName"
+                               th:field="*{customerName}" placeholder="Enter your full name" required />
+                    </div>
 
-    </form>
+                    <div class="form-group">
+                        <label class="form-label" for="address">Delivery Address</label>
+                        <input class="form-input" type="text" id="address"
+                               th:field="*{address}" placeholder="Enter your delivery address" required />
+                    </div>
+                </form>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="section-card">
+                <h2 class="section-title">Payment Method</h2>
+                <div class="payment-options">
+                    <button type="button" class="payment-btn" onclick="selectPayment('cash', this)">
+                        <span class="payment-icon">💵</span>
+                        <span>Cash on Delivery</span>
+                        <span class="payment-check">✓</span>
+                    </button>
+                    <button type="button" class="payment-btn" onclick="selectPayment('credit_card', this)">
+                        <span class="payment-icon">💳</span>
+                        <span>Credit Card</span>
+                        <span class="payment-check">✓</span>
+                    </button>
+                    <button type="button" class="payment-btn" onclick="selectPayment('paypal', this)">
+                        <span class="payment-icon">🅿️</span>
+                        <span>PayPal</span>
+                        <span class="payment-check">✓</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Order Summary -->
+        <div class="order-summary-card">
+            <h2 class="summary-title">Order Summary</h2>
+
+            <div class="summary-items">
+                <div th:each="item : ${cartItems}" class="summary-item">
+                    <div class="summary-item-title">
+                        <span th:text="${item.book.title}"></span>
+                        <span class="summary-item-qty">Qty: <span th:text="${item.quantity}"></span></span>
+                    </div>
+                    <span>$<span th:text="${#numbers.formatDecimal(item.book.price * item.quantity, 1, 2)}"></span></span>
+                </div>
+            </div>
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>$<span th:text="${#numbers.formatDecimal(cartTotal, 1, 2)}">0.00</span></span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span>$20.00</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>$<span th:text="${#numbers.formatDecimal(cartTotal + 20, 1, 2)}">20.00</span></span>
+            </div>
+
+            <button type="button" class="confirm-btn" id="confirm-btn" disabled onclick="submitOrder()">
+                Confirm Order →
+            </button>
+            <p class="payment-note" id="payment-note">Select a payment method above to continue</p>
+        </div>
+
+    </div>
+
+    <div class="footer-links">
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/books}">Books</a>
+        <a th:href="@{/cart/view}">Cart</a>
+        <a th:href="@{/orders/history}">Order History</a>
+        <p style="margin-top: 20px; font-size: 11px;">© 2025 Novella Bookstore</p>
+    </div>
 </div>
+
+<script>
+    function selectPayment(method, btn) {
+        document.querySelectorAll('.payment-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('paymentMethodInput').value = method;
+        document.getElementById('confirm-btn').disabled = false;
+        document.getElementById('payment-note').textContent = '✓ Payment method selected';
+    }
+
+    function submitOrder() {
+        if (!document.getElementById('paymentMethodInput').value) return;
+        document.getElementById('checkout-form').submit();
+    }
+</script>
 
 </body>
 </html>

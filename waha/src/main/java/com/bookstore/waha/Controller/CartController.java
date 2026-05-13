@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/cart")
+
 public class CartController {
 
     private final BookRepository bookRepository;
@@ -69,11 +70,22 @@ public class CartController {
 
     @GetMapping("/view")
     public String viewCart(HttpSession session, Model model) {
-        List<CartItem> cart = (List<CartItem>) session.getAttribute("cartItems");
+
+        List<CartItem> cart =
+                (List<CartItem>) session.getAttribute("cartItems");
+
         if (cart == null) {
             cart = new ArrayList<>();
         }
+
+        // ✅ calculate total
+        double cartTotal = 0;
+        for (CartItem item : cart) {
+            cartTotal += item.getBook().getPrice() * item.getQuantity();
+        }
+
         model.addAttribute("cartItems", cart);
+        model.addAttribute("cartTotal", cartTotal); // ⭐ IMPORTANT
 
         return "orders/cart";
     }

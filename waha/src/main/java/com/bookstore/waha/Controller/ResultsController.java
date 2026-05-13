@@ -1,7 +1,9 @@
 package com.bookstore.waha.Controller;
 
 import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.Inventory;
 import com.bookstore.waha.Service.BookService;
+import com.bookstore.waha.Service.InventoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -15,15 +17,17 @@ import java.util.Collections;
 @Controller
 public class ResultsController {
     private final BookService bookService;
+    private final InventoryService inventoryService;
 
-    public ResultsController(BookService bookService) {
+    public ResultsController(BookService bookService, InventoryService inventoryService) {
         this.bookService = bookService;
+        this.inventoryService = inventoryService;
     }
 
     @GetMapping("/books")
     public String bookList(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
-        return "/books/BookList";
+        return "books/BookList";
     }
 
     @GetMapping("/books/search")
@@ -36,7 +40,7 @@ public class ResultsController {
         if (query == null || query.trim().isEmpty()) {
             model.addAttribute("books", Collections.emptyList());
             model.addAttribute("query", "");
-            return "/books/search";
+            return "books/search";
         }
 
 
@@ -49,12 +53,14 @@ public class ResultsController {
         model.addAttribute("totalPages", bookPage.getTotalPages());
         model.addAttribute("totalResults", bookPage.getTotalElements());
 
-        return "/books/search";
+        return "books/search";
     }
     @GetMapping("/books/{id}")
     public String getBookDetails(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
-        return "/books/BookDetails";
+        Inventory inventory = inventoryService.getInventoryByBookId(id);
+        model.addAttribute("inventory", inventory);
+        return "books/BookDetails";
     }
 }

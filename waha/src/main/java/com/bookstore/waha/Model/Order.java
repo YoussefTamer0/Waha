@@ -26,9 +26,7 @@ public class Order {
     @Column(name = "address")
     private String address;
 
-    @NotNull(message = "Total price is required")
-    @Positive(message = "Total price must be positive")
-    @Column(name = "totalPrice")  // matches DB column
+    @Column(name = "totalPrice")  // matches DB column — set by service, not validated from form
     private Double totalPrice;
 
     @Column(name = "status", nullable = false)
@@ -44,7 +42,7 @@ public class Order {
     private List<OrderItem> items;
 
     @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "customerID")
+    @JoinColumn(name = "customerID")
     private Customer customer;
 
     public Order() {}
