@@ -12,11 +12,11 @@ import java.util.Optional;
 @Service
 public class publishersService {
     private final BookRepository bookrepo;
-   private final PublishersRepository publisherrepo;
-   public publishersService(PublishersRepository publisherrepo, BookRepository bookrepo){
-       this.bookrepo=bookrepo;
-       this.publisherrepo=publisherrepo;
-   }
+    private final PublishersRepository publisherrepo;
+    public publishersService(PublishersRepository publisherrepo, BookRepository bookrepo){
+        this.bookrepo=bookrepo;
+        this.publisherrepo=publisherrepo;
+    }
     public void addPublisher(Publisher publisher) {
 
 
@@ -28,21 +28,21 @@ public class publishersService {
 
         publisherrepo.save(publisher);
     }
-   public void removePublisher(Publisher publisher){
-       if(publisher.getPublisherID()==null)
-       {
-           throw new RuntimeException("Publisher doesnt exist.");
-       }
-       publisherrepo.deleteById(publisher.getPublisherID());
-   }
-   public List<Publisher> getAllPublisher(){
-       List<Publisher> publishers= publisherrepo.findAll();
-       return publishers;
-   }
-   public Publisher findPublisherbyID(Long ID){
-      Optional<Publisher> publisher= publisherrepo.findById(ID);
-       return publisher.orElse(null);
-   }
+    public void removePublisher(Publisher publisher){
+        if(publisher.getPublisherID()==null)
+        {
+            throw new RuntimeException("Publisher doesnt exist.");
+        }
+        publisherrepo.deleteById(publisher.getPublisherID());
+    }
+    public List<Publisher> getAllPublisher(){
+        List<Publisher> publishers= publisherrepo.findAll();
+        return publishers;
+    }
+    public Publisher findPublisherbyID(Long ID){
+        Optional<Publisher> publisher= publisherrepo.findById(ID);
+        return publisher.orElse(null);
+    }
     @Transactional
     public void addExistingBookToPublisher(Long publisherID, Long bookID) {
         Publisher publisher = publisherrepo.findById(publisherID)
