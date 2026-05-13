@@ -1,7 +1,7 @@
 package com.bookstore.waha.Controller;
-import com.bookstore.waha.model.Book;
-import com.bookstore.waha.model.CartItem;
-import com.bookstore.waha.repository.BookRepository;
+import com.bookstore.waha.Model.Book;
+import com.bookstore.waha.Model.CartItem;
+import com.bookstore.waha.Repository.BookRepository;
 
 import com.bookstore.waha.Model.Book;
 import com.bookstore.waha.Model.CartItem;
@@ -39,7 +39,6 @@ public class CartController {
 
 
         Optional<Book> bookOptional = bookRepository.findById(Long.valueOf(bookID));
-        Optional<Book> bookOptional = bookRepository.findById(bookID);
         if (bookOptional.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Book not found");
             return "redirect:/cart/view";

@@ -37,7 +37,7 @@ public class AuthorService {
         }
         return bookRepository.findAll().stream()
                 .map(Book::getAuthor)
-                .filter(a -> a != null && authorId.equals(a.getAuthorId()))
+                .filter(a -> a != null && authorId.equals(a.getAuthorID()))
                 .findFirst();
     }
 

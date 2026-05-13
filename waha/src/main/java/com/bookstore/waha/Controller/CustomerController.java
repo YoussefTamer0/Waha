@@ -44,7 +44,7 @@ public class CustomerController {
                 if (customer != null) {
                     session.setAttribute("loggedCustomer", customer);
                     session.setAttribute("userType", "CUSTOMER");
-                    return "redirect:/customer/profile";
+                    return "redirect:/home";
                 }
             } catch (RuntimeException e) {
             }

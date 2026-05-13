@@ -48,6 +48,37 @@
       color: #340B01;
       font-weight: bold;
     }
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 2px solid #6B4028;
+    }
+    .admin-name {
+      font-size: 13px;
+      color: #BED4C2;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-name span {
+      font-weight: 600;
+      color: #ECE6D8;
+    }
+    .btn-signout {
+      display: block;
+      width: 100%;
+      padding: 10px 15px;
+      background-color: #6B4028;
+      color: #ECE6D8;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      transition: background-color 0.2s;
+    }
+    .btn-signout:hover { background-color: #9b1c1c; color: white; }
 
 
     .main-content { margin-left: 260px; flex: 1; padding: 40px 30px; }
@@ -310,10 +341,15 @@
     <nav>
       <ul>
         <li><a th:href="@{/admin/dashboard}">📊 Dashboard</a></li>
-        <li><a th:href="@{/admin/books/manage}">📖 Manage Books</a></li>
-        <li><a th:href="@{/admin/orders/manage}" class="active">📦 Manage Orders</a></li>
+        <li><a th:href="@{/admin/managebooks}">📖 Manage Books</a></li>
+        <li><a th:href="@{/admin/manageorders}" class="active">📦 Manage Orders</a></li>
+        <li><a th:href="@{/inventory/manage}">🗂 Inventory</a></li>
       </ul>
     </nav>
+    <div class="sidebar-footer">
+      <div class="admin-name">👤 <span th:text="${session.loggedAdmin?.firstName} ?: 'Admin'">Admin</span></div>
+      <a class="btn-signout" th:href="@{/customer/logout}">🚪 Sign Out</a>
+    </div>
   </aside>
 
 
@@ -335,16 +371,14 @@
         <div class="stat-card">
           <div class="stat-label">Total Revenue</div>
           <div class="stat-value green"
-               th:text="'$' + ${#numbers.formatDecimal(orders.stream().mapToDouble(o -> o.totalPrice ?: 0).sum(), 1, 2)}">
+               th:text="'$' + ${#numbers.formatDecimal(totalRevenue, 1, 2)}">
             $0.00
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Avg. Order Value</div>
           <div class="stat-value"
-               th:text="${#lists.size(orders) > 0}
-                                   ? '$' + ${#numbers.formatDecimal(orders.stream().mapToDouble(o -> o.totalPrice ?: 0).average().orElse(0), 1, 2)}
-                                   : '$0.00'">
+               th:text="${#lists.size(orders) > 0 ? '$' + #numbers.formatDecimal(totalRevenue / #lists.size(orders), 1, 2) : '$0.00'}">
             $0.00
           </div>
         </div>
@@ -355,7 +389,7 @@
         <h2>📋 All Orders</h2>
 
         <!-- Filter / search bar -->
-        <form th:action="@{/admin/orders/manage}" method="get">
+        <form th:action="@{/admin/manageorders}" method="get">
           <div class="filter-bar">
             <input
                     type="text"
@@ -364,7 +398,7 @@
                     th:value="${keyword}"
             />
             <button type="submit">🔍 Search</button>
-            <a class="btn-clear" th:href="@{/admin/orders/manage}">✕ Clear</a>
+            <a class="btn-clear" th:href="@{/admin/manageorders}">✕ Clear</a>
           </div>
         </form>
 

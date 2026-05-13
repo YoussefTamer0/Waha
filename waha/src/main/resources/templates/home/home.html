@@ -999,7 +999,8 @@
                 >3</span
                 >
             </a>
-            <a href="/customer/login" class="btn-primary">Sign In</a>
+            <a th:if="${session.loggedCustomer == null}" href="/customer/login" class="btn-primary">Sign In</a>
+            <a th:if="${session.loggedCustomer != null}" href="/customer/profile" class="btn-primary">Profile</a>
         </div>
     </div>
 </header>

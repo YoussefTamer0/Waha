@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.List;
+
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -47,6 +49,8 @@ public class Customer {
     @NotBlank(message = "Password is required")
     @Column(name = "password")
     private String password;
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 
     public Long getCustomerID() { return customerID; }
     public void setCustomerID(Long customerID) { this.customerID = customerID; }
