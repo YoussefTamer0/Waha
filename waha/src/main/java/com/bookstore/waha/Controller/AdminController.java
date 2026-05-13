@@ -4,9 +4,7 @@ import com.bookstore.waha.Model.Author;
 import com.bookstore.waha.Model.Book;
 import com.bookstore.waha.Model.Order;
 import com.bookstore.waha.Model.Publisher;
-import com.bookstore.waha.Service.AdminService;
-import com.bookstore.waha.Service.BookService;
-import com.bookstore.waha.Service.OrderService;
+import com.bookstore.waha.Service.*;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,11 +23,15 @@ public class AdminController {
     private final AdminService adminservice;
     private final BookService bookService;
     private final OrderService orderService;
+    private final AuthorService authorService;
+    private final publishersService publishersService;
 
-    public AdminController(AdminService adminservice, BookService bookService, OrderService orderService) {
+    public AdminController(AdminService adminservice, BookService bookService, OrderService orderService, AuthorService authorService, publishersService publishersService) {
         this.adminservice = adminservice;
         this.orderService = orderService;
         this.bookService = bookService;
+        this.authorService = authorService;
+        this.publishersService = publishersService;
     }
 
     @GetMapping("/admin/managebooks")
@@ -38,7 +40,25 @@ public class AdminController {
         book.setAuthor(new Author());
         book.setPublisher(new Publisher());
         model.addAttribute("book", book);
+        model.addAttribute("author", new Author());
+        model.addAttribute("publisher", new Publisher());
+        model.addAttribute("authors", authorService.getAllAuthors());
+        model.addAttribute("publishers", publishersService.getAllPublisher());
         return "admin/managebooks";
+    }
+
+    @PostMapping("/admin/authors/add")
+    public String addAuthor(@ModelAttribute("author") Author author, RedirectAttributes redirectAttributes) {
+        authorService.addAuthor(author);
+        redirectAttributes.addFlashAttribute("message", "Author added successfully!");
+        return "redirect:/admin/managebooks";
+    }
+
+    @PostMapping("/admin/publishers/add")
+    public String addPublisher(@ModelAttribute("publisher") Publisher publisher, RedirectAttributes redirectAttributes) {
+        publishersService.addPublisher(publisher);
+        redirectAttributes.addFlashAttribute("message", "Publisher added successfully!");
+        return "redirect:/admin/managebooks";
     }
 
     @PostMapping("/admin/books/add")

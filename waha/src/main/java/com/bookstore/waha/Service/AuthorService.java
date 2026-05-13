@@ -23,11 +23,7 @@ public class AuthorService {
 
 
     public List<Author> getAllAuthors() {
-        return bookRepository.findAll().stream()
-                .map(Book::getAuthor)
-                .filter(a -> a != null)
-                .distinct()
-                .toList();
+        return authorRepository.findAll();
     }
 
 
@@ -35,10 +31,7 @@ public class AuthorService {
         if (authorId == null) {
             throw new RuntimeException("Author ID cannot be null");
         }
-        return bookRepository.findAll().stream()
-                .map(Book::getAuthor)
-                .filter(a -> a != null && authorId.equals(a.getAuthorID()))
-                .findFirst();
+        return authorRepository.findById(authorId);
     }
 
 
@@ -105,5 +98,10 @@ public class AuthorService {
 
     public long countAuthors() {
         return getAllAuthors().size();
+    }
+
+    @Transactional
+    public void addAuthor(Author author) {
+        authorRepository.save(author);
     }
 }
