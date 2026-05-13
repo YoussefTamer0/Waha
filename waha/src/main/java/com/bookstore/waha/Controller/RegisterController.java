@@ -1,6 +1,7 @@
 package com.bookstore.waha.Controller;
 
 import com.bookstore.waha.Service.CustomerService;
+import com.bookstore.waha.Service.EmailService;
 import com.bookstore.waha.Model.Customer;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegisterController {
 
     private final CustomerService customerService;
+    private final EmailService emailService;
 
-    public RegisterController(CustomerService customerService) {
+    public RegisterController(CustomerService customerService, EmailService emailService) {
         this.customerService = customerService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/customer/register")
@@ -41,6 +44,10 @@ public class RegisterController {
             model.addAttribute("message", "Email already exists. Please use a different email.");
             return "customers/register";
         }
+
+        String subject = "Welcome to Novella Bookstore!";
+        String body = "Dear " + registeredCustomer.getFirstName() + ",\n\nThank you for registering at Novella Bookstore. We are excited to have you!\n\nHappy reading!\n\nThe Novella Bookstore Team";
+        emailService.sendEmail(registeredCustomer.getEmail(), subject, body);
 
         return "redirect:/customer/login";
     }

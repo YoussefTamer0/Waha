@@ -4,6 +4,7 @@ import com.bookstore.waha.Model.CartItem;
 import com.bookstore.waha.Model.Customer;
 import com.bookstore.waha.Model.Order;
 import com.bookstore.waha.Service.OrderService;
+import com.bookstore.waha.Service.EmailService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -21,14 +22,14 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final EmailService emailService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, EmailService emailService) {
         this.orderService = orderService;
+        this.emailService = emailService;
     }
 
-    /* =====================================================
-       CHECKOUT PAGE
-    ===================================================== */
+
     @GetMapping("/Checkout")
     public String checkoutPage(Model model, HttpSession session) {
 
@@ -49,9 +50,7 @@ public class OrderController {
     }
 
 
-    /* =====================================================
-       PLACE ORDER
-    ===================================================== */
+
     @PostMapping("/place")
     public String placeOrder(
             @ModelAttribute("order") Order order,
@@ -68,7 +67,7 @@ public class OrderController {
             return "redirect:/cart/view";
         }
 
-        // Manually validate only the fields the user fills in
+
         boolean hasErrors = false;
         if (order.getCustomerName() == null || order.getCustomerName().isBlank()) {
             result.rejectValue("customerName", "required", "Customer name is required");
@@ -102,6 +101,10 @@ public class OrderController {
                     "Order placed successfully!"
             );
 
+            String subject = "Order Confirmation - Novella Bookstore";
+            String body = "Dear " + loggedCustomer.getFirstName() + ",\n\nYour order has been placed successfully!\nOrder ID: " + order.getId() + "\nTotal: " + calculateCartTotal(cartItems) + "\n\nThank you for your purchase!\n\nThe Novella Bookstore Team";
+            emailService.sendEmail(loggedCustomer.getEmail(), subject, body);
+
             return "redirect:/orders/confirmation";
 
         } catch (Exception e) {
@@ -117,9 +120,7 @@ public class OrderController {
     }
 
 
-    /* =====================================================
-       ORDER CONFIRMATION
-    ===================================================== */
+
     @GetMapping("/confirmation")
     public String confirmation(Model model, HttpSession session) {
         Order lastOrder = (Order) session.getAttribute("lastOrder");
@@ -131,9 +132,7 @@ public class OrderController {
     }
 
 
-    /* =====================================================
-       ADMIN — ALL ORDERS
-    ===================================================== */
+
     @GetMapping("/admin")
     public String adminOrderHistory(Model model) {
 
@@ -144,9 +143,7 @@ public class OrderController {
     }
 
 
-    /* =====================================================
-       ADMIN SEARCH
-    ===================================================== */
+
     @GetMapping("/search")
     public String searchOrders(
             @RequestParam(required = false) String keyword,
@@ -161,9 +158,7 @@ public class OrderController {
     }
 
 
-    /* =====================================================
-       CUSTOMER ORDER HISTORY
-    ===================================================== */
+
     @GetMapping("/history")
     public String orderHistory(Model model, HttpSession session) {
 
@@ -183,9 +178,6 @@ public class OrderController {
     }
 
 
-    /* =====================================================
-       HELPER METHOD
-    ===================================================== */
     private double calculateCartTotal(List<CartItem> cartItems) {
 
         double total = 0;
