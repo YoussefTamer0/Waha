@@ -1,152 +1,258 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Confirmation</title>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmed - Novella</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
     <style>
-        /* ===== Reset ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cream: #caba9c;
+            --parchment: #f0e9dc;
+            --gold: #4c6444;
+            --gold-lt: #d48e0c;
+            --ink: #4d2d18;
+            --ink-mid: #4d2d18;
+            --border: #4d2d18;
+            --serif: "Cormorant Garamond", Georgia, serif;
+            --sans: "DM Sans", sans-serif;
+            --radius: 4px;
         }
 
-        /* ===== Body ===== */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #ECE6D8;
-            color: #340B01;
-            padding: 30px;
-        }
-
-        /* ===== Titles ===== */
-        h2, h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #340B01;
-        }
-
-        /* ===== Container ===== */
-        .container {
-            background-color: #BED4C2;
-            padding: 25px;
-            border-radius: 12px;
-            max-width: 600px;
-            margin: auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        /* ===== Form (same theme) ===== */
-        form {
-            background-color: #BED4C2;
-            padding: 25px;
-            border-radius: 12px;
-            max-width: 500px;
-            margin: 20px auto;
-        }
-
-        /* ===== Labels ===== */
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
-        /* ===== Inputs ===== */
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #7B967A;
-            border-radius: 8px;
-            background-color: #ECE6D8;
-        }
-
-        /* ===== Button ===== */
-        button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            background-color: #6B4028;
-            color: white;
-            border: none;
-            border-radius: 8px;
+            font-family: var(--sans);
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.7;
             font-size: 16px;
-            cursor: pointer;
         }
 
-        button:hover {
-            background-color: #340B01;
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--cream);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
         }
 
-        /* ===== Cart Table (clean same theme) ===== */
-        table {
+        .header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; height: 72px; }
+
+        .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+        .logo-word { font-family: var(--serif); font-size: 30px; font-weight: 300; letter-spacing: 0.12em; color: var(--ink); }
+        .logo-tagline { font-size: 9px; font-weight: bold; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-lt); margin-top: 2px; }
+
+        nav { display: flex; gap: 36px; align-items: center; }
+        nav a { text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mid); transition: color 0.2s; }
+        nav a:hover { color: var(--gold); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .icon-btn { background: none; border: none; cursor: pointer; color: var(--ink-mid); font-size: 18px; display: flex; align-items: center; justify-content: center; transition: color 0.2s; text-decoration: none; }
+        .icon-btn:hover { color: var(--gold); }
+        .btn-primary { background: var(--gold); color: #fff; border: none; padding: 10px 24px; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: var(--radius); transition: background 0.2s, transform 0.15s; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+        .btn-secondary { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 10px 24px; font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: var(--radius); transition: all 0.2s; text-decoration: none; display: inline-block; }
+        .btn-secondary:hover { background: var(--gold); color: #fff; }
+
+        .container { max-width: 700px; margin: 0 auto; padding: 40px 5%; }
+
+        /* Success Banner */
+        .success-banner {
+            text-align: center;
+            padding: 36px 20px 28px;
+            margin-bottom: 32px;
+        }
+
+        .success-icon {
+            font-size: 56px;
+            display: block;
+            margin-bottom: 16px;
+            animation: pop 0.5s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-title {
+            font-family: var(--serif);
+            font-size: 40px;
+            font-weight: 300;
+            color: var(--ink);
+            margin-bottom: 8px;
+            letter-spacing: 0.04em;
+        }
+
+        .success-subtitle {
+            font-size: 14px;
+            color: var(--ink-mid);
+            letter-spacing: 0.04em;
+        }
+
+        /* Cards */
+        .info-card {
+            background: var(--parchment);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px 28px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-family: var(--serif);
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--ink);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            letter-spacing: 0.04em;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(77,45,24,0.2);
+            font-size: 14px;
+        }
+
+        .detail-row:last-child { border-bottom: none; }
+
+        .detail-label {
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-mid);
+            font-weight: 500;
+        }
+
+        /* Items table */
+        .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px auto;
-            background-color: #ECE6D8;
-            border-radius: 10px;
-            overflow: hidden;
         }
 
-        /* Header */
-        th {
-            background-color: #6B4028;
-            color: white;
-            padding: 12px;
-        }
+        .items-table thead { background: var(--ink); color: #fff; }
+        .items-table th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+        .items-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid rgba(77,45,24,0.15); }
+        .items-table tbody tr:hover { background: rgba(76,100,68,0.07); }
 
-        /* Cells */
-        td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #7B967A;
-        }
+        /* Total row */
+        .totals-section { margin-top: 6px; }
+        .total-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid rgba(77,45,24,0.15); font-size: 14px; }
+        .total-row.grand { border-top: 2px solid var(--gold); border-bottom: none; font-weight: bold; font-size: 17px; margin-top: 6px; padding-top: 14px; }
 
-        /* Row hover (soft only) */
-        tr:hover {
-            background-color: #BED4C2;
-        }
+        .actions { display: flex; gap: 14px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
 
-        /* ===== Paragraph ===== */
-        p {
-            margin: 10px 0;
+        .footer-links { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
+        .footer-links a { color: var(--ink); text-decoration: none; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 12px; }
+        .footer-links a:hover { color: var(--gold); }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .success-title { font-size: 30px; }
         }
     </style>
-    <title>Order Confirmation</title>
-    <link rel="stylesheet" href="templates/orders/css.css">
 </head>
 <body>
 
-<nav style="padding: 10px 20px; background: #6B4028; display: flex; gap: 20px; align-items: center;">
-    <a th:href="@{/home}" style="color: #fff; text-decoration: none; font-weight: bold;">🏠 Home</a>
-    <a th:href="@{/books}" style="color: #fff; text-decoration: none;">Books</a>
-    <a th:href="@{/orders/history}" style="color: #fff; text-decoration: none;">My Orders</a>
-    <a th:href="@{/customer/profile}" style="color: #fff; text-decoration: none; margin-left: auto;">My Profile</a>
-</nav>
-
-<h2>Order Placed Successfully 🎉</h2>
+<header>
+    <div class="header-inner">
+        <a class="logo" th:href="@{/home}">
+            <span class="logo-word">Novella</span>
+            <span class="logo-tagline">A World of Stories</span>
+        </a>
+        <nav>
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/books}">Books</a>
+            <a th:href="@{/orders/history}">Orders</a>
+        </nav>
+        <div class="header-actions">
+            <a th:href="@{/cart/view}" class="icon-btn" title="Cart">🛒</a>
+            <a th:href="@{/customer/profile}" class="btn-primary">My Profile</a>
+        </div>
+    </div>
+</header>
 
 <div class="container">
 
-    <p th:text="'Name: ' + ${order.customerName}"></p>
-    <p th:text="'Address: ' + ${order.address}"></p>
-    <p th:text="'Total: ' + ${order.totalPrice}"></p>
+    <!-- Success Banner -->
+    <div class="success-banner">
+        <span class="success-icon">✅</span>
+        <h1 class="success-title">Order Placed!</h1>
+        <p class="success-subtitle">Thank you — your books are on their way.</p>
+    </div>
 
-    <h3>Items:</h3>
+    <!-- Delivery Details -->
+    <div class="info-card">
+        <h2 class="card-title">Delivery Details</h2>
+        <div class="detail-row">
+            <span class="detail-label">Name</span>
+            <span th:text="${order.customerName}">—</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Address</span>
+            <span th:text="${order.address}">—</span>
+        </div>
+    </div>
 
-    <ul>
-        <li th:each="item : ${order.items}">
-            <span th:text="${item.book.title}"></span> -
-            <span th:text="${item.quantity}"></span> pcs -
-            <span th:text="${item.price}"></span> EGP
-        </li>
-    </ul>
+    <!-- Order Items -->
+    <div class="info-card">
+        <h2 class="card-title">Items Ordered</h2>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${order.items}">
+                    <td th:text="${item.book.title}">Book Title</td>
+                    <td th:text="${item.quantity}">1</td>
+                    <td>$<span th:text="${#numbers.formatDecimal(item.price, 1, 2)}"></span></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div style="margin-top: 20px; display: flex; gap: 12px;">
-        <a th:href="@{/books}" style="padding: 10px 20px; background: #6B4028; color: #fff; text-decoration: none; border-radius: 6px;">Continue Shopping</a>
-        <a th:href="@{/orders/history}" style="padding: 10px 20px; background: #3a6e47; color: #fff; text-decoration: none; border-radius: 6px;">View My Orders</a>
+        <div class="totals-section" style="margin-top: 14px;">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span>$<span th:text="${#numbers.formatDecimal(order.totalPrice - 20, 1, 2)}"></span></span>
+            </div>
+            <div class="total-row">
+                <span>Shipping</span>
+                <span>$20.00</span>
+            </div>
+            <div class="total-row grand">
+                <span>Total Paid</span>
+                <span>$<span th:text="${#numbers.formatDecimal(order.totalPrice, 1, 2)}"></span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+        <a th:href="@{/books}" class="btn-primary">Continue Shopping</a>
+        <a th:href="@{/orders/history}" class="btn-secondary">View My Orders</a>
+    </div>
+
+    <div class="footer-links">
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/books}">Books</a>
+        <a th:href="@{/orders/history}">Order History</a>
+        <a th:href="@{/customer/profile}">My Profile</a>
+        <p style="margin-top: 20px; font-size: 11px;">© 2025 Novella Bookstore</p>
     </div>
 
 </div>

@@ -272,7 +272,7 @@
     <p class="book-author">
       by
       <th:block th:if="${book.author != null}">
-        <a th:href="@{/books(authorId=${book.author.authorId})}"
+        <a th:href="@{/books(authorId=${book.author.authorID})}"
            th:text="${book.author.firstName + ' ' + book.author.lastName}">Author Name</a>
       </th:block>
       <th:block th:unless="${book.author != null}">

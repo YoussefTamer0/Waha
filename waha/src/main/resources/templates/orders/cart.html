@@ -452,11 +452,11 @@
             </div>
             <div class="summary-row">
                 <span>Shipping</span>
-                <span>Calculated at checkout</span>
+                <span>$20.00</span>
             </div>
             <div class="summary-row total">
                 <span>Total</span>
-                <span>$<span th:text="${#numbers.formatDecimal(cartTotal, 1, 2)}">0.00</span></span>
+                <span>$<span th:text="${#numbers.formatDecimal(cartTotal + 20, 1, 2)}">20.00</span></span>
             </div>
         </div>
 
