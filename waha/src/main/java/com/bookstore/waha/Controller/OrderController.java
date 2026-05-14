@@ -131,34 +131,6 @@ public class OrderController {
         return "orders/Confirmation";
     }
 
-
-
-    @GetMapping("/admin")
-    public String adminOrderHistory(Model model) {
-
-        model.addAttribute("orders",
-                orderService.getAllOrders());
-
-        return "orders/orders";
-    }
-
-
-
-    @GetMapping("/search")
-    public String searchOrders(
-            @RequestParam(required = false) String keyword,
-            Model model) {
-
-        model.addAttribute("orders",
-                orderService.searchOrders(keyword));
-
-        model.addAttribute("searchKeyword", keyword);
-
-        return "orders/orders";
-    }
-
-
-
     @GetMapping("/history")
     public String orderHistory(Model model, HttpSession session) {
 
