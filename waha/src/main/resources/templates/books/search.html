@@ -521,7 +521,8 @@
                 </svg>
                 <span style="position: absolute; top: -4px; right: -6px; background: var(--gold); color: #fff; width: 16px; height: 16px; border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; font-weight: 600;">3</span>
             </a>
-            <a href="/customer/login" class="btn-primary">Sign In</a>
+            <a th:if="${session.loggedCustomer == null}" href="/customer/login" class="btn-primary">Sign In</a>
+            <a th:if="${session.loggedCustomer != null}" href="/customer/profile" class="btn-primary">Profile</a>
         </div>
     </div>
 </header>

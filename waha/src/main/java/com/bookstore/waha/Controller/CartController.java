@@ -120,6 +120,7 @@ public class CartController {
     }
 
     @PostMapping("/remove")
+
     public String removeFromCart(@RequestParam Long bookId,
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes) {
